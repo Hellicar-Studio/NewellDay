@@ -34,8 +34,8 @@ public:
     void videoResized(const void* sender, ofResizeEventArgs& arg);
 
 
-    std::size_t numCameras = 1;
+    std::size_t numCameras = 2;
     std::size_t numCameraRows = 1;
-    std::size_t numCameraColumns = 1;
+    std::size_t numCameraColumns = 2;
 
 };

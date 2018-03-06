@@ -110,6 +110,7 @@ void ofApp::draw()
         ofSetColor(255,255,255,255);
         grabbers[i]->draw(0,0,w,h); // draw the camera
         
+        
         ofEnableAlphaBlending();
         
         // draw the info box
