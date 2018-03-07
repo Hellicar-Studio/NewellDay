@@ -10,7 +10,7 @@
 
 #include "ofMain.h"
 #include "IPVideoGrabber.h"
-
+#include "ofxGui.h"
 
 class ofApp: public ofBaseApp
 {
@@ -33,9 +33,13 @@ public:
     // and that broadcast size is changed by another user. 
     void videoResized(const void* sender, ofResizeEventArgs& arg);
 
-
     std::size_t numCameras = 2;
     std::size_t numCameraRows = 1;
     std::size_t numCameraColumns = 2;
-
+    
+    ofxPanel gui;
+    ofParameter<bool> recording;
+    
+    string camIP = "192.168.100.32";
+    
 };

@@ -17,6 +17,9 @@ void ofApp::setup()
     ofLogNotice("ofApp::setup()") << "Loaded " << ipcams.size() << " locations.";
 
     reloadCameras();
+    
+    gui.setup("GUI", "settings/settings.xml");
+    gui.add(recording.set("Recording", false));
 
 }
 
@@ -163,6 +166,8 @@ void ofApp::draw()
     ofDisableAlphaBlending();
 
     ofDrawBitmapString("Press Spacebar for next Video", 10, ofGetHeight() - 14);
+    
+    gui.draw();
 }
 
 void ofApp::keyPressed(int key)
@@ -170,5 +175,19 @@ void ofApp::keyPressed(int key)
     if (key == ' ')
     {
         reloadCameras();
+    }
+    if(key == 'r') {
+        if(recording) {
+            ofHttpResponse resp = ofLoadURL("http://root:password@"+ camIP + "/axis-cgi/virtualinput/deactivate.cgi?schemaversion=1&port=1");
+            recording = false;
+            cout<<"Try to deactivate Response:"<<endl;
+            cout<<resp.data<<endl;
+        }
+        else {
+            ofHttpResponse resp = ofLoadURL("http://root:password@"+ camIP + "/axis-cgi/virtualinput/activate.cgi?schemaversion=1&port=1");
+            recording = true;
+            cout<<"Try to activate Response:"<<endl;
+            cout<<resp.data<<endl;
+        }
     }
 }

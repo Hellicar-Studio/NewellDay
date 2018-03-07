@@ -1,3 +1,4 @@
+ofxGui
 ofxIpVideoGrabber
 ofxPoco
 ofxXmlSettings
