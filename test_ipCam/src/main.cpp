@@ -4,12 +4,11 @@
 // SPDX-License-Identifier:    MIT
 //
 
-
 #include "ofApp.h"
 
 
 int main()
 {
-	ofSetupOpenGL(320 * 3, 240 * 3, OF_WINDOW);
+	ofSetupOpenGL(1920, 1080, OF_WINDOW);
     return ofRunApp(std::make_shared<ofApp>());
 }

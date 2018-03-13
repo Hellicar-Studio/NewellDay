@@ -4,9 +4,7 @@
 // SPDX-License-Identifier:    MIT
 //
 
-
 #pragma once
-
 
 #include "ofMain.h"
 #include "IPVideoGrabber.h"
@@ -39,7 +37,14 @@ public:
     
     ofxPanel gui;
     ofParameter<bool> recording;
+    ofParameter<float> blend;
     
-    string camIP = "192.168.100.32";
+    ofFbo buffer;
+    
+    ofShader blendShader;
+    
+    string camIP1 = "192.168.1.112";
+    string camIP2 = "192.168.1.110";
+
     
 };
