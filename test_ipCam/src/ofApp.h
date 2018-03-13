@@ -18,6 +18,8 @@ public:
     void draw();
     
     void keyPressed(int key);
+    
+    void toggleRecording();
 
     std::vector<std::shared_ptr<ofx::Video::IPVideoGrabber>> grabbers;
 
@@ -38,6 +40,9 @@ public:
     ofxPanel gui;
     ofParameter<bool> recording;
     ofParameter<float> blend;
+    ofParameter<int> time;
+    
+    int timeRecStarted;
     
     ofFbo buffer;
     
