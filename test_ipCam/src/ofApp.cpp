@@ -19,12 +19,25 @@ void ofApp::setup()
     
     gui.setup("GUI", "settings/settings.xml");
     gui.add(recording.set("Recording", false));
+    gui.add(live.set("LIVE", true));
     gui.add(blend.set("Blend", 0.0, 0.0, 1.0));
     gui.add(time.set("Time", 0, 0, 300));
+    gui.add(frameHeight.set("Frame Height", 0, 0, 1080));
     
     buffer.allocate(1920*2, 1080);
     
     blendShader.load("shaders/blend");
+    
+    ofxNestedFileLoader loader;
+    vector<string> videoPaths = loader.load("videos");
+    for(int i = 0; i < videoPaths.size(); i++) {
+        ofVideoPlayer video;
+        video.load(videoPaths[i]);
+        videos.push_back(video);
+    }
+    
+    gui.add(vidIndex1.set("Video Index 1", 0, 0, videoPaths.size()));
+    gui.add(vidIndex2.set("Video Index 2", 0, 0, videoPaths.size()));
 }
 
 
@@ -102,10 +115,11 @@ void ofApp::draw()
     float h = ofGetHeight() / numCameraRows;
     
     buffer.begin();
-    
     blendShader.begin();
-    blendShader.setUniformTexture("stream1", grabbers[0]->getTexture(), 0);
-    blendShader.setUniformTexture("stream2", grabbers[1]->getTexture(), 1);
+    if(live) {
+        blendShader.setUniformTexture("stream1", grabbers[0]->getTexture(), 0);
+        blendShader.setUniformTexture("stream2", grabbers[1]->getTexture(), 1);
+    }
     blendShader.setUniform2f("resolution", 1920, 1080);
     blendShader.setUniform1f("blend", blend);
     ofDrawRectangle(0, 0, 1920*2, 1080);
@@ -113,8 +127,18 @@ void ofApp::draw()
     buffer.end();
     
     buffer.draw(0, 0, 1920, 1080/2);
+    ofPushStyle();
+    ofSetColor(255);
+    ofSetLineWidth(5);
+    ofNoFill();
+    int width = 1920/2 + int(ofMap(blend, 0.0, 1.0, 1920/2, 0.0));
+    int height = width * 54 / 384.5;
+    ofDrawRectangle(0, frameHeight, width, height);
+    ofPopStyle();
     
     gui.draw();
+    
+    ofDrawBitmapStringHighlight("Total Resolution: " + ofToString(3840 + int(ofMap(blend, 0.0, 1.0, 3840, 0.0))), 0, ofGetHeight() - 20);
 }
 
 void ofApp::toggleRecording() {
@@ -142,5 +166,11 @@ void ofApp::keyPressed(int key)
     }
     if(key == 'r') {
         toggleRecording();
+    }
+    if(key == 'c') {
+        int width = 1920/2 + int(ofMap(blend, 0.0, 1.0, 1920/2, 0.0));
+        int height = width * 54 / 384.5;
+        screen.grabScreen(0, frameHeight, width, height);
+        screen.save("output" + ofGetTimestampString() + ".png");
     }
 }

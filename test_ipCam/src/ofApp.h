@@ -9,6 +9,7 @@
 #include "ofMain.h"
 #include "IPVideoGrabber.h"
 #include "ofxGui.h"
+#include "ofxNestedFileLoader.h"
 
 class ofApp: public ofBaseApp
 {
@@ -39,14 +40,22 @@ public:
     
     ofxPanel gui;
     ofParameter<bool> recording;
+    ofParameter<bool> live;
     ofParameter<float> blend;
     ofParameter<int> time;
+    ofParameter<int> frameHeight;
+    ofParameter<int> vidIndex1;
+    ofParameter<int> vidIndex2;
+    
+    ofImage screen;
     
     int timeRecStarted;
     
     ofFbo buffer;
     
     ofShader blendShader;
+    
+    vector<ofVideoPlayer> videos;
     
     string camIP1 = "192.168.1.112";
     string camIP2 = "192.168.1.110";
