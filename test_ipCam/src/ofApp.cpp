@@ -21,8 +21,10 @@ void ofApp::setup()
     gui.add(recording.set("Recording", false));
     gui.add(live.set("LIVE", true));
     gui.add(blend.set("Blend", 0.0, 0.0, 1.0));
-    gui.add(time.set("Time", 0, 0, 300));
+    gui.add(yOffset.set("Right Y", 0, -1.0, 1.0));
     gui.add(frameHeight.set("Frame Height", 0, 0, 1080));
+    gui.add(time.set("Time", 0, 0, 300));
+
     
     buffer.allocate(1920*2, 1080);
     
@@ -36,8 +38,14 @@ void ofApp::setup()
         videos.push_back(video);
     }
     
-    gui.add(vidIndex1.set("Video Index 1", 0, 0, videoPaths.size()));
-    gui.add(vidIndex2.set("Video Index 2", 0, 0, videoPaths.size()));
+//    gui.add(vidIndex1.set("Video Index 1", 0, 0, videoPaths.size()));
+//    gui.add(vidIndex2.set("Video Index 2", 0, 0, videoPaths.size()));
+    
+    img1.load("Good1.png");
+    img2.load("Good2.png");
+    
+    img1.resize(1920, 1080);
+    img2.resize(1920, 1080);
 }
 
 
@@ -117,14 +125,16 @@ void ofApp::draw()
     buffer.begin();
     blendShader.begin();
     if(live) {
-        blendShader.setUniformTexture("stream1", grabbers[0]->getTexture(), 0);
-        blendShader.setUniformTexture("stream2", grabbers[1]->getTexture(), 1);
+        blendShader.setUniformTexture("stream1", img1, 0);
+        blendShader.setUniformTexture("stream2", img2, 1);
     }
+    blendShader.setUniform1f("yOffset", yOffset);
     blendShader.setUniform2f("resolution", 1920, 1080);
     blendShader.setUniform1f("blend", blend);
     ofDrawRectangle(0, 0, 1920*2, 1080);
     blendShader.end();
     buffer.end();
+//    grabbers[0]->draw(0, 0, 1920, 1080);
     
     buffer.draw(0, 0, 1920, 1080/2);
     ofPushStyle();

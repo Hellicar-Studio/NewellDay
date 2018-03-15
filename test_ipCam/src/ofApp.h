@@ -42,10 +42,12 @@ public:
     ofParameter<bool> recording;
     ofParameter<bool> live;
     ofParameter<float> blend;
+    ofParameter<float> yOffset;
     ofParameter<int> time;
     ofParameter<int> frameHeight;
-    ofParameter<int> vidIndex1;
-    ofParameter<int> vidIndex2;
+    
+    
+    ofImage img1, img2;
     
     ofImage screen;
     
