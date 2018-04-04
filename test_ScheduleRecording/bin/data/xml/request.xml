@@ -1,8 +1,6 @@
-<SOAP-ENV:Envelope xmlns:SOAP-ENV=“http://www.w3.org/2003/05/soap-envelope”
-    xmlns:SOAP-ENC=“http://www.w3.org/2003/05/soap-encoding”
-    xmlns:xsi=“http://www.w3.org/2001/XMLSchema-instance”
-    xmlns:xsd=“http://www.w3.org/2001/XMLSchema”>
-    <SOAP-ENV:Body>
-        <m:GetEventInstances xmlns:m=“http://www.axis.com/vapix/ws/event1”/>
-    </SOAP-ENV:Body>
-</SOAP-ENV:Envelope>
+<x:Envelope xmlns:x="http://www.w3.org/2003/05/soap-envelope" xmlns:eve="http://www.axis.com/vapix/ws/event1">
+    <x:Header/>
+    <x:Body>
+        <eve:GetEventInstances/>
+    </x:Body>
+</x:Envelope>
