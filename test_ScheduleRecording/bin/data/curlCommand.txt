@@ -1,0 +1,1 @@
+curl --header "Content-Type: application/soap+xml; action=http://www.axis.com/vapix/ws/event1/GetEventInstances; Charset=UTF-8" --data @request.xml http://192.168.100.24/vapix/services
