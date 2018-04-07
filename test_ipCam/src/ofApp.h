@@ -59,8 +59,8 @@ public:
     
     vector<ofVideoPlayer> videos;
     
-    string camIP1 = "192.168.1.112";
-    string camIP2 = "192.168.1.110";
+    string camIP1 = "192.168.100.24";
+    string camIP2 = "192.168.100.26";
 
     
 };

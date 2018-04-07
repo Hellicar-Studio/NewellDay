@@ -1,0 +1,6 @@
+<x:Envelope xmlns:x="http://www.w3.org/2003/05/soap-envelope" xmlns:eve="http://www.axis.com/vapix/ws/event1">
+    <x:Header/>
+    <x:Body>
+        <eve:GetEventInstances/>
+    </x:Body>
+</x:Envelope>
