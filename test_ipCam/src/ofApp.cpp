@@ -23,7 +23,7 @@ void ofApp::setup()
     gui.add(blend.set("Blend", 0.0, 0.0, 1.0));
     gui.add(yOffset.set("Right Y", 0, -1.0, 1.0));
     gui.add(frameHeight.set("Frame Height", 0, 0, 1080));
-    gui.add(time.set("Time", 0, 0, 300));
+    gui.add(time.set("Time", 0, 0, 3600));
 
     
     buffer.allocate(1920*2, 1080);
@@ -46,6 +46,10 @@ void ofApp::setup()
     
     img1.resize(1920, 1080);
     img2.resize(1920, 1080);
+    
+    curve.load("curve.png");
+    
+    postProcess.load("shaders/crossProcess");
 }
 
 
@@ -124,19 +128,28 @@ void ofApp::draw()
     
     buffer.begin();
     blendShader.begin();
-    if(live) {
-        blendShader.setUniformTexture("stream1", img1, 0);
-        blendShader.setUniformTexture("stream2", img2, 1);
-    }
+    blendShader.setUniformTexture("stream1", grabbers[0]->getTexture(), 0);
+    blendShader.setUniformTexture("stream2", grabbers[1]->getTexture(), 1);
     blendShader.setUniform1f("yOffset", yOffset);
     blendShader.setUniform2f("resolution", 1920, 1080);
     blendShader.setUniform1f("blend", blend);
     ofDrawRectangle(0, 0, 1920*2, 1080);
     blendShader.end();
     buffer.end();
-//    grabbers[0]->draw(0, 0, 1920, 1080);
+    
+//    postProcess.begin();
+//    postProcess.setUniformTexture("image", buffer, 0);
+//    postProcess.setUniformTexture("curveTex", curve, 1);
+//    postProcess.setUniform1f("curveWidth", curve.getWidth());
+//    postProcess.setUniform1f("curveHeight", curve.getHeight());
+//    postProcess.setUniform2f("resolution", 1920*2, 1080);
+//    ofDrawRectangle(0, 0, 1920, 1080);
+//    postProcess.end();
     
     buffer.draw(0, 0, 1920, 1080/2);
+    
+//    curve.draw(500, 500);
+    
     ofPushStyle();
     ofSetColor(255);
     ofSetLineWidth(5);

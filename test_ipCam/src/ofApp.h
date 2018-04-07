@@ -46,8 +46,7 @@ public:
     ofParameter<int> time;
     ofParameter<int> frameHeight;
     
-    
-    ofImage img1, img2;
+    ofImage img1, img2, curve;
     
     ofImage screen;
     
@@ -55,7 +54,7 @@ public:
     
     ofFbo buffer;
     
-    ofShader blendShader;
+    ofShader blendShader, postProcess;
     
     vector<ofVideoPlayer> videos;
     
