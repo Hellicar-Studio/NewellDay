@@ -15,27 +15,22 @@ public:
 	string IPAddress;
 	int port;
 	string session;
+	int client_port;
 
 	socketConnection() {
 		sock = 0;
 		memset(buffer, 0, sizeof(buffer));
 	}
-	int createSocket() {
-		if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-			printf("\ncreateSocket: Socket creation error \n");
-			return -1;
-		}
-		return 1;
-	}
-	void setIPAndPort(string _IPAddress, int _port) {
+
+	void setIPAndPort(string _IPAddress, int _port, int _clientPort) {
 		IPAddress = _IPAddress;
 		port = _port;
 		options = "OPTIONS * RTSP/1.0\r\nCSeq: 1\r\n\r\n";
-		describe = "DESCRIBE rtsp://" + _IPAddress + ":" + to_string(port) + " RTSP/1.0\r\nCSeq: 2\r\n\r\n";
-		setup = "SETUP rtsp://" + _IPAddress + ":" + to_string(port) + " RTSP/1.0\r\nCSeq: 3\r\nTransport: RTP/AVP;unicast;client_port=8000-80001\r\n\r\n";
-		play = "PLAY rtsp://" + _IPAddress + ":" + to_string(port) + " RTSP/1.0\r\nCSeq: 4\r\nSession: ";
-		pause = "PAUSE rtsp://" + _IPAddress + ":" + to_string(port) + " RTSP/1.0\r\nCSeq: 5\r\nSession: ";
-		teardown = "TEARDOWN rtsp://" + _IPAddress + ":" + to_string(port) + " RTSP/1.0\r\nCSeq: 6\r\nSession: ";
+		describe = "DESCRIBE * RTSP/1.0\r\nCSeq: 2\r\n\r\n";
+		setup = "SETUP * RTSP/1.0\r\nCSeq: 3\r\nTransport: RTP/AVP;unicast;client_port=" + to_string(client_port) + "-" + to_string(client_port+1) + "\r\n\r\n";
+		play = "PLAY * RTSP/1.0\r\nCSeq: 4\r\nSession: ";
+		pause = "PAUSE * RTSP/1.0\r\nCSeq: 5\r\nSession: ";
+		teardown = "TEARDOWN * RTSP/1.0\r\nCSeq: 6\r\nSession: ";
 	}
 
 	char* sendOptions() {
@@ -66,6 +61,7 @@ public:
 	}
 
 	char* sendPlay() {
+		printf("\nSending Play Request\n");
 		const char *stringToSend = (play + session + "\r\n\r\n").c_str();
 		send(sock, stringToSend, strlen(stringToSend), 0);
 		printf("\nSent Play Request\n");
@@ -115,6 +111,24 @@ public:
 		return 1;
 	}
 
+	void setSessionIDFromResponseBuffer(char* response) {
+		string identifier = "Session: ";
+
+		char *s = strstr(response, "Session: ");
+
+		string sessionID = "";
+
+		for(int i = s + identifier.length() - response; i < 1024; i++) {
+			if(response[i] == ';')
+				break;
+			sessionID += response[i];
+			// printf("%c", response[i]);
+		}
+		// printf(session);
+
+		session = sessionID;
+	}
+
 private:
 	struct sockaddr_in address;
 	int sock, valread;
@@ -134,7 +148,7 @@ int main(int argc, char const  *argv[]) {
 
 	socketConnection rtspConnection;
 
-	rtspConnection.setIPAndPort("184.72.239.149", 80);
+	rtspConnection.setIPAndPort("184.72.239.149", 80, 90);
 
 	rtspConnection.connectToServer();
 
@@ -144,32 +158,17 @@ int main(int argc, char const  *argv[]) {
 
 	char* response = rtspConnection.sendSetup();
 
-	string identifier = "Session: ";
-
-	char *s = strstr(response, "Session: ");
-
-	printf("\nBuffer: \n%s\n", response );
-
-	string sessionID = "";
+	rtspConnection.setSessionIDFromResponseBuffer(response);
 
 	printf("Session ID: \n");
-	for(int i = s + identifier.length() - response; i < 1024; i++) {
-		if(response[i] == ';')
-			break;
-		sessionID += response[i];
-		printf("%c", response[i]);
-	}
+	printf("%s", rtspConnection.session.c_str());
 
-	rtspConnection.session = sessionID;
-
-	rtspConnection.sendSetup();
 
 	rtspConnection.sendPlay();
 
 	rtspConnection.sendPause();
 
 	rtspConnection.sendTeardown();
-
 
 	printf("\n");
 
