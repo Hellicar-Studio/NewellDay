@@ -60,8 +60,13 @@ public:
 		return buffer;
 	}
 
+	char* setupSession() {
+		char* resp = sendSetup();
+		setSessionIDFromResponseBuffer(resp);
+		return resp;
+	}
+
 	char* sendPlay() {
-		printf("\nSending Play Request\n");
 		const char *stringToSend = (play + session + "\r\n\r\n").c_str();
 		send(sock, stringToSend, strlen(stringToSend), 0);
 		printf("\nSent Play Request\n");
@@ -122,9 +127,7 @@ public:
 			if(response[i] == ';')
 				break;
 			sessionID += response[i];
-			// printf("%c", response[i]);
 		}
-		// printf(session);
 
 		session = sessionID;
 	}
@@ -143,34 +146,3 @@ private:
 	string teardown;
 
 };
-
-int main(int argc, char const  *argv[]) {
-
-	RTSPController rtspConnection;
-
-	rtspConnection.setIPAndPort("184.72.239.149", 80, 90);
-
-	rtspConnection.connectToServer();
-
-	rtspConnection.sendOptions();
-
-	rtspConnection.sendDescribe();
-
-	char* response = rtspConnection.sendSetup();
-
-	rtspConnection.setSessionIDFromResponseBuffer(response);
-
-	printf("Session ID: \n");
-	printf("%s", rtspConnection.session.c_str());
-
-
-	rtspConnection.sendPlay();
-
-	rtspConnection.sendPause();
-
-	rtspConnection.sendTeardown();
-
-	printf("\n");
-
-	return 0;
-}
