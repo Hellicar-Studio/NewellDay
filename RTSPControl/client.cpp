@@ -10,14 +10,14 @@
 
 using namespace std;
 
-class socketConnection {
+class RTSPController {
 public:
 	string IPAddress;
 	int port;
 	string session;
 	int client_port;
 
-	socketConnection() {
+	RTSPController() {
 		sock = 0;
 		memset(buffer, 0, sizeof(buffer));
 	}
@@ -146,7 +146,7 @@ private:
 
 int main(int argc, char const  *argv[]) {
 
-	socketConnection rtspConnection;
+	RTSPController rtspConnection;
 
 	rtspConnection.setIPAndPort("184.72.239.149", 80, 90);
 
