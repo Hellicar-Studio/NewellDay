@@ -14,6 +14,8 @@ class socketConnection {
 public:
 	string IPAddress;
 	int port;
+	string session;
+
 	socketConnection() {
 		sock = 0;
 		memset(buffer, 0, sizeof(buffer));
@@ -28,7 +30,7 @@ public:
 	void setIPAndPort(string _IPAddress, int _port) {
 		IPAddress = _IPAddress;
 		port = _port;
-		options = "OPTIONS rtsp://" + _IPAddress + ":" + to_string(port) + " RTSP/1.0\r\nCSeq: 1\r\n\r\n";
+		options = "OPTIONS * RTSP/1.0\r\nCSeq: 1\r\n\r\n";
 		describe = "DESCRIBE rtsp://" + _IPAddress + ":" + to_string(port) + " RTSP/1.0\r\nCSeq: 2\r\n\r\n";
 		setup = "SETUP rtsp://" + _IPAddress + ":" + to_string(port) + " RTSP/1.0\r\nCSeq: 3\r\nTransport: RTP/AVP;unicast;client_port=8000-80001\r\n\r\n";
 		play = "PLAY rtsp://" + _IPAddress + ":" + to_string(port) + " RTSP/1.0\r\nCSeq: 4\r\nSession: ";
@@ -39,6 +41,7 @@ public:
 	char* sendOptions() {
 		const char *stringToSend = options.c_str();
 		send(sock, stringToSend, strlen(stringToSend), 0);
+		printf("\nSent Options Request\n");
 		valread = read( sock, buffer, 1024);
 		printf("%s\n", buffer );
 		return buffer;
@@ -47,6 +50,7 @@ public:
 	char* sendDescribe() {
 		const char *stringToSend = describe.c_str();
 		send(sock, stringToSend, strlen(stringToSend), 0);
+		printf("\nSent Describe Request\n");
 		valread = read( sock, buffer, 1024);
 		printf("%s\n", buffer );
 		return buffer;
@@ -55,30 +59,34 @@ public:
 	char* sendSetup() {
 		const char *stringToSend = setup.c_str();
 		send(sock, stringToSend, strlen(stringToSend), 0);
+		printf("\nSent Setup Request\n");
 		valread = read( sock, buffer, 1024);
 		printf("%s\n", buffer );
 		return buffer;
 	}
 
 	char* sendPlay() {
-		const char *stringToSend = (play + to_string(session)+"\r\n\r\n").c_str();
+		const char *stringToSend = (play + session + "\r\n\r\n").c_str();
 		send(sock, stringToSend, strlen(stringToSend), 0);
+		printf("\nSent Play Request\n");
 		valread = read( sock, buffer, 1024);
 		printf("%s\n", buffer );
 		return buffer;
 	}
 
 	char* sendPause() {
-		const char *stringToSend = (pause + to_string(session)+"\r\n\r\n").c_str();
+		const char *stringToSend = (pause + session + "\r\n\r\n").c_str();
 		send(sock, stringToSend, strlen(stringToSend), 0);
+		printf("\nSent Pause Request\n");
 		valread = read( sock, buffer, 1024);
 		printf("%s\n", buffer );
 		return buffer;
 	}
 
 	char* sendTeardown() {
-		const char *stringToSend = (teardown + to_string(session)+"\r\n\r\n").c_str();
+		const char *stringToSend = (teardown + session + "\r\n\r\n").c_str();
 		send(sock, stringToSend, strlen(stringToSend), 0);
+		printf("\nSent Teardown Request\n");
 		valread = read( sock, buffer, 1024);
 		printf("%s\n", buffer );
 		return buffer;
@@ -112,7 +120,6 @@ private:
 	int sock, valread;
 	struct sockaddr_in serv_addr;
 	char buffer[1024];
-	int session;
 
 	string options;
 	string describe;
@@ -135,9 +142,36 @@ int main(int argc, char const  *argv[]) {
 
 	rtspConnection.sendDescribe();
 
+	char* response = rtspConnection.sendSetup();
+
+	string identifier = "Session: ";
+
+	char *s = strstr(response, "Session: ");
+
+	printf("\nBuffer: \n%s\n", response );
+
+	string sessionID = "";
+
+	printf("Session ID: \n");
+	for(int i = s + identifier.length() - response; i < 1024; i++) {
+		if(response[i] == ';')
+			break;
+		sessionID += response[i];
+		printf("%c", response[i]);
+	}
+
+	rtspConnection.session = sessionID;
+
 	rtspConnection.sendSetup();
 
+	rtspConnection.sendPlay();
 
+	rtspConnection.sendPause();
+
+	rtspConnection.sendTeardown();
+
+
+	printf("\n");
 
 	return 0;
 }
