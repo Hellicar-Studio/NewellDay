@@ -6,7 +6,6 @@
 #include <string.h>
 #include <unistd.h>
 #include <arpa/inet.h>
-#define PORT 80
 
 using namespace std;
 
@@ -16,45 +15,51 @@ public:
 	int port;
 	string session;
 	int client_port;
+	int numMessages;
 
 	RTSPController() {
 		sock = 0;
 		memset(buffer, 0, sizeof(buffer));
+		numMessages = 0;
 	}
 
 	void setIPAndPort(string _IPAddress, int _port, int _clientPort) {
 		IPAddress = _IPAddress;
 		port = _port;
-		options = "OPTIONS * RTSP/1.0\r\nCSeq: 1\r\n\r\n";
-		describe = "DESCRIBE * RTSP/1.0\r\nCSeq: 2\r\n\r\n";
-		setup = "SETUP * RTSP/1.0\r\nCSeq: 3\r\nTransport: RTP/AVP;unicast;client_port=" + to_string(client_port) + "-" + to_string(client_port+1) + "\r\n\r\n";
-		play = "PLAY * RTSP/1.0\r\nCSeq: 4\r\nSession: ";
-		pause = "PAUSE * RTSP/1.0\r\nCSeq: 5\r\nSession: ";
-		teardown = "TEARDOWN * RTSP/1.0\r\nCSeq: 6\r\nSession: ";
+		client_port = _clientPort;
 	}
 
 	char* sendOptions() {
-		const char *stringToSend = options.c_str();
-		send(sock, stringToSend, strlen(stringToSend), 0);
+		ostringstream oss;
+		oss << "OPTIONS rtsp://" << IPAddress << ":" << port << "/axis-media/media.amp?videocodec=h264&streamprofile=UHDRes RTSP/1.0\r\nCSeq: " << numMessages << "\r\nUser-Agent: Sunrise Master\r\n\r\n";
+		string message = oss.str();
+		send(sock, message.c_str(), message.length(), 0);
 		printf("\nSent Options Request\n");
+		numMessages++;
 		valread = read( sock, buffer, 1024);
 		printf("%s\n", buffer );
 		return buffer;
 	}
 
 	char* sendDescribe() {
-		const char *stringToSend = describe.c_str();
-		send(sock, stringToSend, strlen(stringToSend), 0);
+		ostringstream oss;
+		oss << "DESCRIBE rtsp://" << IPAddress << ":" << "/axis-media/media.amp?videocodec=h264&streamprofile=UHDRes RTSP/1.0\r\nCSeq: " << numMessages << "\r\nUser-Agent: Sunrise Master\r\nAccept: application/sdp\r\n\r\n";
+		string message = oss.str();
+		send(sock, message.c_str(), message.length(), 0);
 		printf("\nSent Describe Request\n");
+		numMessages++;
 		valread = read( sock, buffer, 1024);
 		printf("%s\n", buffer );
 		return buffer;
 	}
 
 	char* sendSetup() {
-		const char *stringToSend = setup.c_str();
-		send(sock, stringToSend, strlen(stringToSend), 0);
+		ostringstream oss;
+		oss << "SETUP rtsp://" << IPAddress << ":" << "/axis-media/media.amp?videocodec=h264&streamprofile=UHDRes RTSP/1.0\r\nCSeq: " << numMessages << "\r\nTransport: RTP/AVP;unicast;client_port=" << client_port << "-" << client_port+1<<"\r\n\r\n";
+		string message = oss.str();
+		send(sock, message.c_str(), message.length(), 0);
 		printf("\nSent Setup Request\n");
+		numMessages++;
 		valread = read( sock, buffer, 1024);
 		printf("%s\n", buffer );
 		return buffer;
@@ -67,27 +72,36 @@ public:
 	}
 
 	char* sendPlay() {
-		const char *stringToSend = (play + session + "\r\n\r\n").c_str();
-		send(sock, stringToSend, strlen(stringToSend), 0);
+		ostringstream oss;
+		oss << "PLAY rtsp://" << IPAddress << ":" << "/axis-media/media.amp?videocodec=h264&streamprofile=UHDRes RTSP/1.0\r\nCSeq: " << numMessages << "\r\nSession: " << session << "\r\nRange: npt=0.000-\r\n\r\n";
+		string message = oss.str();
+		send(sock, message.c_str(), message.length(), 0);
 		printf("\nSent Play Request\n");
+		numMessages++;
 		valread = read( sock, buffer, 1024);
 		printf("%s\n", buffer );
 		return buffer;
 	}
 
 	char* sendPause() {
-		const char *stringToSend = (pause + session + "\r\n\r\n").c_str();
-		send(sock, stringToSend, strlen(stringToSend), 0);
+		ostringstream oss;
+		oss << "PAUSE rtsp://" << IPAddress << ":" << port << "/axis-media/media.amp?videocodec=h264&streamprofile=UHDRes RTSP/1.0\r\nCSeq: " << numMessages << "\r\nSession: " << "\r\n\r\n";
+		string message = oss.str();
+		send(sock, message.c_str(), message.length(), 0);
 		printf("\nSent Pause Request\n");
+		numMessages++;
 		valread = read( sock, buffer, 1024);
 		printf("%s\n", buffer );
 		return buffer;
 	}
 
 	char* sendTeardown() {
-		const char *stringToSend = (teardown + session + "\r\n\r\n").c_str();
-		send(sock, stringToSend, strlen(stringToSend), 0);
+		ostringstream oss;
+		oss << "TEARDOWN rtsp://" << IPAddress << ":" << port << "/axis-media/media.amp?videocodec=h264&streamprofile=UHDRes RTSP/1.0\r\nCSeq: " << numMessages << "\r\nSession: " << "\r\n\r\n";
+		string message = oss.str();
+		send(sock, message.c_str(), message.length(), 0);
 		printf("\nSent Teardown Request\n");
+		numMessages = 0;
 		valread = read( sock, buffer, 1024);
 		printf("%s\n", buffer );
 		return buffer;
@@ -102,7 +116,7 @@ public:
 		memset(&serv_addr, '0', sizeof(serv_addr));
 
 		serv_addr.sin_family = AF_INET;
-		serv_addr.sin_port = htons(PORT);
+		serv_addr.sin_port = htons(port);
 
 		// Convert IPv4 and IPv6 addresses from text to binary form
 		if(inet_pton(AF_INET, IPAddress.c_str(), &serv_addr.sin_addr)<=0) {
@@ -137,12 +151,4 @@ private:
 	int sock, valread;
 	struct sockaddr_in serv_addr;
 	char buffer[1024];
-
-	string options;
-	string describe;
-	string setup;
-	string play;
-	string pause;
-	string teardown;
-
 };

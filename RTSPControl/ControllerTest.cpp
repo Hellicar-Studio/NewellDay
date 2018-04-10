@@ -4,7 +4,7 @@ int main(int argc, char const  *argv[]) {
 
 	RTSPController rtspConnection;
 
-	rtspConnection.setIPAndPort("184.72.239.149", 80, 90);
+	rtspConnection.setIPAndPort("192.168.100.24", 554, 90); //184.72.239.149
 
 	rtspConnection.connectToServer();
 
