@@ -10,43 +10,27 @@ using namespace std;
 
 int main()
 {
-	RTSPController controller24, controller34;
+	RTSPController controller[4];
 
-	controller24.initializeWinSock();
+	controller[0].setIPAndPort("192.168.0.41", 80, 42);
+	controller[1].setIPAndPort("192.168.0.51", 80, 52);
+	controller[2].setIPAndPort("192.168.0.61", 80, 62);
+	controller[3].setIPAndPort("192.168.0.71", 80, 72);
 
-	controller24.setIPAndPort("192.168.100.24", 554, 100);
+	for (int i = 0; i < 4; i++) {
+		controller[i].initializeWinSock();
+		controller[i].connectToServer();
+	}
 
-	controller34.initializeWinSock();
+	//for (int i = 0; i < 4; i++) {
+	//	controller[i].sendActivateVirtualPort(1);
+	//}
 
-	controller34.setIPAndPort("192.168.100.34", 554, 200);
+	//Sleep(30000);
 
-	controller24.connectToServer();
-
-	controller24.sendOptions();
-
-	controller24.sendDescribe();
-
-	controller24.setupSession();
-
-	controller24.sendPlay();
-
-	controller24.sendPause();
-
-	controller24.sendTeardown();
-
-	controller34.connectToServer();
-
-	controller34.sendOptions();
-
-	controller34.sendDescribe();
-
-	controller34.setupSession();
-
-	controller34.sendPlay();
-
-	controller34.sendPause();
-
-	controller34.sendTeardown();
+	for (int i = 0; i < 4; i++) {
+		controller[i].sendDeactivateVirtualPort(1);
+	}
 
     return 0;
 }
