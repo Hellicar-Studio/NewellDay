@@ -11,8 +11,7 @@ using namespace std;
 int main()
 {
 	// Test
-	RTSPController rtspController[4];
-
+	RTSPController rtspController[4]; // These cameras listen for RTSP by default on port 554 and for HTTP by default on port 80
 
 	rtspController[0].setIPAndPort("192.168.0.41", 554, 42);
 	rtspController[1].setIPAndPort("192.168.0.51", 554, 52);
