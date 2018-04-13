@@ -127,7 +127,7 @@ public:
 
 	char* sendOptions() {
 		ostringstream oss;
-		oss << "OPTIONS rtsp://" << IPAddress << ":" << port << "/axis-media/media.amp?videocodec=h264&streamprofile=UHDRes RTSP/1.0\r\nCSeq: " << numMessages << "\r\nUser-Agent: Sunrise Master\r\n\r\n";
+		oss << "OPTIONS rtsp://" << IPAddress << ":" << port << "/axis-media/media.amp?videocodec=h264&streamprofile=UHDRes RTSP/1.0\r\nCSeq: " << numMessages << "\r\nUser-Agent: Sunrise Master\r\nAuthorization: Basic cm9vdDpwYXNzd29yZA==\r\n\r\n";
 		string message = oss.str();
 		printf("\nSending Options Request\n");
 		return sendMessage(message);
