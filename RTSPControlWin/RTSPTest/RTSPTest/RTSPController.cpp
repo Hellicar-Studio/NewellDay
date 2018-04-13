@@ -82,6 +82,11 @@ public:
 
 		char *s = strstr(response, "Session: ");
 
+		if (s == NULL) {
+			printf("\nIdentifier string: '%s' not found. Session not set.\n", identifier.c_str());
+			return;
+		}
+
 		string sessionID = "";
 
 		for (int i = s + identifier.length() - response; i < 1024; i++) {
