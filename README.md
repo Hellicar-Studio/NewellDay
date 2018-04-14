@@ -20,7 +20,7 @@ The followed instructions [here](https://www.youtube.com/watch?v=Fq6xDvPJzrg&ind
 
 And it worked! The key was to enable inbound and outbound access on port 123. We can add security to this by forcing only certain IP addresses to get access so we're not just a puiblicly accessible NTP server.
 
-### Supress Windows auto-updates and notifications
+## Supress Windows auto-updates and notifications
 
 I've taken these instructions from my CANvas github repo [here](https://github.com/Hellicar-Studio/CANvas/blob/master/README.md).
 
