@@ -46,7 +46,10 @@ I've taken these instructions from my CANvas github repo [here](https://github.c
 	15. on DefaultMediaCost double click the Ethernet DWORD Value key and change the value from 1 to 2.
 	16. Click OK.
 	17. Restart your computer.
-3. Set App to auto-Launch.
-	1. press **WIN+R** and enter shell:startup.
-	2. Enter the folder that comes up and right click and select New > Shortcut.
-	3. Add a line to the shortcut that looks like this: "C:/Path/To/program.exe" --flagA --flagB ...
+3. Toggle Notifications of (optional) instructions found [here](https://www.digitaltrends.com/computing/how-to-configure-notifications-action-center-windows-10/2/).
+
+## Set app to Auto-Launch
+
+1. Press **WIN+R** and enter shell:startup.
+2. Enter the folder that comes up and right click and select New > Shortcut.
+3. Add a line to the shortcut that looks like this: "C:/Path/To/program.exe" --flagA --flagB ...
