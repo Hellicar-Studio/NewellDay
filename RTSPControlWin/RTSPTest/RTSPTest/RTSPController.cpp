@@ -23,8 +23,14 @@ public:
 
 	char* sendOptions() {
 		ostringstream oss;
-		oss << "OPTIONS rtsp://" << IPAddress << ":" << port << "/axis-media/media.amp?videocodec=h264&streamprofile=UHDRes RTSP/1.0\r\nCSeq: " << numMessages << "\r\nUser-Agent: Sunrise Master\r\n\r\n";
+		if (session == "") {
+			oss << "OPTIONS rtsp://" << IPAddress << ":" << port << "/axis-media/media.amp?videocodec=h264&streamprofile=UHDRes RTSP/1.0\r\nCSeq: " << numMessages << "\r\nUser-Agent: Sunrise Master\r\n\r\n";
+		}
+		else {
+			oss << "OPTIONS rtsp://" << IPAddress << ":" << port << "/axis-media/media.amp?videocodec=h264&streamprofile=UHDRes RTSP/1.0\r\nCSeq: " << numMessages << "\r\nUser-Agent: Sunrise Master\r\nSession: "<< session <<"\r\n\r\n";
+		}
 		string message = oss.str();
+		printf("\n%s\n", message.c_str());
 		printf("\nSending Options Request\n");
 		return sendMessage(message);
 	}
