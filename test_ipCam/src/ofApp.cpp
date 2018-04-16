@@ -24,9 +24,11 @@ void ofApp::setup()
     gui.add(yOffset.set("Right Y", 0, -1.0, 1.0));
     gui.add(frameHeight.set("Frame Height", 0, 0, 1080));
     gui.add(time.set("Time", 0, 0, 300));
+    gui.add(index.set("Index", 0, 0, ipcams.size()-1));
 
-    
     buffer.allocate(1920*2, 1080);
+    buffer2.allocate(1920*2, 1080);
+    buffer3.allocate(1920*4, 1080);
     
     blendShader.load("shaders/blend");
     
@@ -125,8 +127,8 @@ void ofApp::draw()
     buffer.begin();
     blendShader.begin();
     if(live) {
-        blendShader.setUniformTexture("stream1", img1, 0);
-        blendShader.setUniformTexture("stream2", img2, 1);
+        blendShader.setUniformTexture("stream1", grabbers[0]->getTexture(), 0);
+        blendShader.setUniformTexture("stream2", grabbers[1]->getTexture(), 1);
     }
     blendShader.setUniform1f("yOffset", yOffset);
     blendShader.setUniform2f("resolution", 1920, 1080);
@@ -134,15 +136,44 @@ void ofApp::draw()
     ofDrawRectangle(0, 0, 1920*2, 1080);
     blendShader.end();
     buffer.end();
-//    grabbers[0]->draw(0, 0, 1920, 1080);
     
-    buffer.draw(0, 0, 1920, 1080/2);
+    buffer2.begin();
+    blendShader.begin();
+    if(live) {
+        blendShader.setUniformTexture("stream1", grabbers[2]->getTexture(), 0);
+        blendShader.setUniformTexture("stream2", grabbers[3]->getTexture(), 1);
+    }
+    blendShader.setUniform1f("yOffset", yOffset);
+    blendShader.setUniform2f("resolution", 1920, 1080);
+    blendShader.setUniform1f("blend", blend);
+    ofDrawRectangle(0, 0, 1920*4, 1080);
+    blendShader.end();
+    buffer2.end();
+    
+//    buffer.draw(0, 0, 1920, 1080/2);
+//    buffer2.draw(0, 1080/2, 1920, 1080/2);
+    
+    buffer3.begin();
+    blendShader.begin();
+    if(live) {
+        blendShader.setUniformTexture("stream1", buffer.getTexture(), 0);
+        blendShader.setUniformTexture("stream2", buffer2.getTexture(), 1);
+    }
+    blendShader.setUniform1f("yOffset", yOffset);
+    blendShader.setUniform2f("resolution", 1920*2, 1080);
+    blendShader.setUniform1f("blend", blend);
+    ofDrawRectangle(0, 0, 1920*4, 1080);
+    blendShader.end();
+    buffer3.end();
+    
+    buffer3.draw(0, 0, 1920, 1080 / 4);
+
     ofPushStyle();
     ofSetColor(255);
     ofSetLineWidth(5);
     ofNoFill();
-    int width = 1920/2 + int(ofMap(blend, 0.0, 1.0, 1920/2, 0.0));
-    int height = width * 54 / 384.5;
+    int width = 1613;
+    int height = 240;
     ofDrawRectangle(0, frameHeight, width, height);
     ofPopStyle();
     

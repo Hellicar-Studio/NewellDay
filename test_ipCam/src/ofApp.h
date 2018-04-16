@@ -34,7 +34,7 @@ public:
     // and that broadcast size is changed by another user. 
     void videoResized(const void* sender, ofResizeEventArgs& arg);
 
-    std::size_t numCameras = 2;
+    std::size_t numCameras = 4;
     std::size_t numCameraRows = 1;
     std::size_t numCameraColumns = 2;
     
@@ -44,7 +44,7 @@ public:
     ofParameter<float> blend;
     ofParameter<float> yOffset;
     ofParameter<int> time;
-    ofParameter<int> frameHeight;
+    ofParameter<int> frameHeight, index;
     
     
     ofImage img1, img2;
@@ -53,7 +53,7 @@ public:
     
     int timeRecStarted;
     
-    ofFbo buffer;
+    ofFbo buffer, buffer2, buffer3;
     
     ofShader blendShader;
     
