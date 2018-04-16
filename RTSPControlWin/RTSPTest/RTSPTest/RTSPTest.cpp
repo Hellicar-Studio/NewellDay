@@ -15,7 +15,7 @@ int main()
 	RTSPControllerListener rtspControllerListener[4];
 
 	rtspController[0].setIPAndPort("192.168.0.41", 554, 1042);
-	rtspController[0].init(&rtspControllerListener[0]);
+	rtspController[0].addListener(&rtspControllerListener[0]);
 	rtspController[1].setIPAndPort("192.168.0.51", 554, 52);
 	rtspController[2].setIPAndPort("192.168.0.61", 554, 62);
 	rtspController[3].setIPAndPort("192.168.0.71", 554, 72);

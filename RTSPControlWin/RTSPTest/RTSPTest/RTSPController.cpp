@@ -27,7 +27,7 @@ public:
 		numMessages = 0;
 	}
 
-	int init(RTSPControllerListener* lis) {
+	int addListener(RTSPControllerListener* lis) {
 		if (nullptr == lis) {
 			printf("Given listener is a nullptr.");
 			return -1;
