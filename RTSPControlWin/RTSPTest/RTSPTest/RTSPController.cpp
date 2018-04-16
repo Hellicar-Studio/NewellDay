@@ -11,16 +11,21 @@ public:
 class RTSPControllerListener {
 public:
 	virtual ~RTSPControllerListener() {};
-	virtual void onRTSPControllerHasRespnse(char * buffer) = 0;
+	virtual void onRTSPControllerIsSetup(StreamProfile streamProfile) = 0;
 };
 
 class RTSPController : public ConnectionController {
 public:
 	StreamProfile streamProfile;
 	int numMessages;
+	RTSPControllerListener* listener = nullptr;
 
 	RTSPController() : ConnectionController() {
 		numMessages = 0;
+	}
+
+	int init(RTSPControllerListener* lis) {
+		listener = lis;
 	}
 
 	void setIPAndPort(string _IPAddress, int _port, int _clientPort) {
@@ -68,6 +73,7 @@ public:
 		char* resp = sendSetup();
 		streamProfile.sessionID = getParamFromResponseBuffer(resp, "Session: ", ";");
 		streamProfile.pictureAndSequenceParameters = getParamFromResponseBuffer(resp, "sprop-parameter-sets=", "\r\n");
+		listener->onRTSPControllerIsSetup(streamProfile);
 		return resp;
 	}
 
