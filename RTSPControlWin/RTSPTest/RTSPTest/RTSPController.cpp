@@ -11,7 +11,10 @@ public:
 class RTSPControllerListener {
 public:
 	virtual ~RTSPControllerListener() {};
-	virtual void onRTSPControllerIsSetup(StreamProfile streamProfile) = 0;
+	virtual void onRTSPControllerIsSetup(StreamProfile streamProfile) {
+		printf("On Controller Setup Called!");
+		return;
+	};
 };
 
 class RTSPController : public ConnectionController {
@@ -25,7 +28,12 @@ public:
 	}
 
 	int init(RTSPControllerListener* lis) {
+		if (nullptr == lis) {
+			printf("Given listener is a nullptr.");
+			return -1;
+		}
 		listener = lis;
+		return 0;
 	}
 
 	void setIPAndPort(string _IPAddress, int _port, int _clientPort) {
