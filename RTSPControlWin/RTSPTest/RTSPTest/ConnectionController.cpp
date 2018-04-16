@@ -19,7 +19,7 @@ using namespace std;
 
 class ConnectionController {
 public:
-	string IPAddress, session;
+	string IPAddress;
 	char buffer[1024];
 	struct sockaddr_in server;
 	int port, valread;
