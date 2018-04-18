@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "ConnectionController.cpp"
+#include <fstream>
+
 
 struct StreamProfile {
 public:
@@ -83,6 +85,19 @@ public:
 		streamProfile.pictureAndSequenceParameters = getParamFromResponseBuffer(resp, "sprop-parameter-sets=", "\r\n");
 		listener->onRTSPControllerIsSetup(streamProfile);
 		return resp;
+	}
+
+	void writeStreamParametersToFile(string file_name) {
+		ofstream file;
+		file.open(file_name);
+		if (file.is_open()) {
+			file << streamProfile.pictureAndSequenceParameters;
+			file.close();
+		}
+		else {
+			printf("File %s could not be openned", file_name);
+			return;
+		}
 	}
 
 	string sendPlay() {

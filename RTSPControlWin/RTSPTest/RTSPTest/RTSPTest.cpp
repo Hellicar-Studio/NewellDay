@@ -40,6 +40,9 @@ int main()
 		rtspController[i].sendOptions();
 		rtspController[i].sendDescribe();
 		rtspController[i].setupSession();
+		ostringstream oss;
+		oss << "Stream" << i << "Parameters.txt";
+		rtspController[i].writeStreamParametersToFile(oss.str());
 		rtspController[i].sendPlay();
 		_sleep(2000);
 	}
