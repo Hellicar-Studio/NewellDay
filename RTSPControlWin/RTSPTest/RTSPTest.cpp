@@ -10,17 +10,22 @@
 
 #define START 0
 #define STOP 4
-#define DURATION 20
 
 using namespace std;
 
-int main()
+int main(int argc, char* argv[])
 {
-	// Test 123
+	// Test 12
 	SunriseFinder sunriseFinder;
 	sunriseFinder.setTime();
 	RTSPController rtspController[4]; // These cameras listen for RTSP by default on port 554 and for HTTP by default on port 80
 	RTSPControllerListener rtspControllerListener[4];
+
+	for (int i = 0; i < argc; i++) {
+		printf(argv[i]);
+	}
+
+	int duration = 60;
 
 	rtspController[0].setIPAndPort("192.168.0.41", 554, 1042);
 	rtspController[1].setIPAndPort("192.168.0.51", 554, 1052);
@@ -49,12 +54,12 @@ int main()
 
 	int count = 0;
 
-	while (count < DURATION) {
+	while (count < duration) {
 		for (int i = START; i < STOP; i++) {
 			rtspController[i].sendOptions();
 		}
-		printf("\nCount: %i\n", count);
-		count++;
+		cout << "\nSeconds: "<< count <<"\n";
+		count += 30;
 		_sleep(30000);
 	}
 

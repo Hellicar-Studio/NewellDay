@@ -13,10 +13,7 @@ public:
 class RTSPControllerListener {
 public:
 	virtual ~RTSPControllerListener() {};
-	virtual void onRTSPControllerIsSetup(StreamProfile streamProfile) {
-		printf("On Controller Setup Called!");
-		return;
-	};
+	virtual void onRTSPControllerIsSetup(StreamProfile streamProfile) {};
 };
 
 class RTSPController : public ConnectionController {
@@ -31,7 +28,7 @@ public:
 
 	int addListener(RTSPControllerListener* lis) {
 		if (nullptr == lis) {
-			printf("Given listener is a nullptr.");
+			cout << "Given listener is a nullptr.";
 			return -1;
 		}
 		listener = lis;
@@ -58,8 +55,7 @@ public:
 			oss << "OPTIONS rtsp://" << IPAddress << ":" << port << "/axis-media/media.amp?videocodec=h264&streamprofile=UHDRes RTSP/1.0\r\nCSeq: " << numMessages << "\r\nUser-Agent: Sunrise Master\r\nSession: "<< streamProfile.sessionID <<"\r\n\r\n";
 		}
 		string message = oss.str();
-		printf("\n%s\n", message.c_str());
-		printf("\nSending Options Request\n");
+		cout << "\nSending Options Request to IPAddress: " << IPAddress << "\n";
 		return sendMessage(message);
 	}
 
@@ -67,7 +63,7 @@ public:
 		ostringstream oss;
 		oss << "DESCRIBE rtsp://" << IPAddress << ":" << "/axis-media/media.amp?videocodec=h264&streamprofile=UHDRes RTSP/1.0\r\nCSeq: " << numMessages << "\r\nUser-Agent: Sunrise Master\r\nAccept: application/sdp\r\n\r\n";
 		string message = oss.str();
-		printf("\nSending Describe Request\n");
+		cout << "\nSending Describe Request to IPAddress: " << IPAddress;
 		return sendMessage(message);
 	}
 
@@ -75,7 +71,7 @@ public:
 		ostringstream oss;
 		oss << "SETUP rtsp://" << IPAddress << ":" << "/axis-media/media.amp?videocodec=h264&streamprofile=UHDRes RTSP/1.0\r\nCSeq: " << numMessages << "\r\nTransport: RTP/AVP;unicast;client_port=" << streamProfile.client_port << "-" << streamProfile.client_port + 1 << "\r\n\r\n";
 		string message = oss.str();
-		printf("\nSending Setup Request\n");
+		cout << "\nSending Setup Request to IPAddress: " << IPAddress;
 		return sendMessage(message);
 	}
 
@@ -95,7 +91,7 @@ public:
 			file.close();
 		}
 		else {
-			printf("File %s could not be openned", file_name);
+			cout << "File " << file_name << " could not be openned";
 			return;
 		}
 	}
@@ -104,7 +100,7 @@ public:
 		ostringstream oss;
 		oss << "PLAY rtsp://" << IPAddress << ":" << "/axis-media/media.amp?videocodec=h264&streamprofile=UHDRes RTSP/1.0\r\nCSeq: " << numMessages << "\r\nSession: " << streamProfile.sessionID << "\r\nRange: npt=0.000-\r\n\r\n";
 		string message = oss.str();
-		printf("\nSending Play Request\n");
+		cout << "\nSending Play Request to IPAddress: " << IPAddress;
 		return sendMessage(message);
 	}
 
@@ -112,7 +108,7 @@ public:
 		ostringstream oss;
 		oss << "PAUSE rtsp://" << IPAddress << ":" << port << "/axis-media/media.amp?videocodec=h264&streamprofile=UHDRes RTSP/1.0\r\nCSeq: " << numMessages << "\r\nSession: " << streamProfile.sessionID << "\r\n\r\n";
 		string message = oss.str();
-		printf("\nSending Pause Request\n");
+		cout << "\nSending Pause Request to IPAddress: " << IPAddress;
 		return sendMessage(message);
 	}
 
@@ -120,7 +116,7 @@ public:
 		ostringstream oss;
 		oss << "TEARDOWN rtsp://" << IPAddress << ":" << port << "/axis-media/media.amp?videocodec=h264&streamprofile=UHDRes RTSP/1.0\r\nCSeq: " << numMessages << "\r\nSession: " << streamProfile.sessionID << "\r\n\r\n";
 		string message = oss.str();
-		printf("\nSending Teardown Request\n");
+		cout << "\nSending Teardown Request to IPAddress: " << IPAddress;
 		string buff = sendMessage(message);
 		numMessages = 0;
 		return buff;
@@ -137,7 +133,7 @@ public:
 		string param = paramZone.substr(0, end);
 
 		if (param == "") {
-			printf("\nIdentifier string: '%s' not found. Param not returned.\n", StartIdentifier.c_str());
+			cout << "\nIdentifier string: '" << StartIdentifier.c_str() << "' not found. Param not returned.\n";
 			return "";
 		}
 

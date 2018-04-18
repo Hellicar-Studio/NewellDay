@@ -88,7 +88,6 @@ public:
 #else
 		valread = read(sock, buffer, 1024);
 #endif
-		printf("%s\n", buffer);
 		return buffer;
 	}
 };
