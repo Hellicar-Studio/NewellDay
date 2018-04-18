@@ -20,12 +20,20 @@ int main(int argc, char* argv[])
 	sunriseFinder.setTime();
 	RTSPController rtspController[4]; // These cameras listen for RTSP by default on port 554 and for HTTP by default on port 80
 	RTSPControllerListener rtspControllerListener[4];
+	int duration = 60;
 
 	for (int i = 0; i < argc; i++) {
-		printf(argv[i]);
+		string dur = argv[i];
+		stringstream convert(dur);
+		if (!(convert >> duration)) {
+			duration = 60;
+			cout << "\nSetting default recording duration of 60 seconds";
+		}
+		else {
+			cout << "\nRecording Duration is: " << duration;
+		}
 	}
 
-	int duration = 60;
 
 	rtspController[0].setIPAndPort("192.168.0.41", 554, 1042);
 	rtspController[1].setIPAndPort("192.168.0.51", 554, 1052);

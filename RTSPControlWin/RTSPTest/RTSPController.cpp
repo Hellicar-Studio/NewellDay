@@ -55,7 +55,7 @@ public:
 			oss << "OPTIONS rtsp://" << IPAddress << ":" << port << "/axis-media/media.amp?videocodec=h264&streamprofile=UHDRes RTSP/1.0\r\nCSeq: " << numMessages << "\r\nUser-Agent: Sunrise Master\r\nSession: "<< streamProfile.sessionID <<"\r\n\r\n";
 		}
 		string message = oss.str();
-		cout << "\nSending Options Request to IPAddress: " << IPAddress << "\n";
+		cout << "\nSending Options Request to IPAddress: " << IPAddress;
 		return sendMessage(message);
 	}
 
