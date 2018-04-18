@@ -3,12 +3,14 @@
 
 #include "stdafx.h"
 #include <iostream>
+#include <time.h>
 
 #include "RTSPController.cpp"
 #include "SunriseFinder.cpp"
 
 #define START 0
 #define STOP 4
+#define DURATION 1
 
 using namespace std;
 
@@ -41,15 +43,16 @@ int main()
 		rtspController[i].sendPlay();
 	}
 
-	printf("\nStreams Started, press any key to ask for options again.\n");
-	system("pause");
+	int count = 0;
 
-	for (int i = START; i < STOP; i++) {
-		rtspController[i].sendOptions();
+	while (count < DURATION) {
+		for (int i = START; i < STOP; i++) {
+			rtspController[i].sendOptions();
+		}
+		printf("\nCount: %i\n", count);
+		count++;
+		_sleep(30000);
 	}
-
-	printf("\nStreams Alive, press any key to stop them.\n");
-	system("pause");
 
 	for (int i = START; i < STOP; i++) {
 		rtspController[i].sendPause();
