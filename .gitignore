@@ -13,7 +13,9 @@
 *.pyc   
 .svn/   
 *.log
-node_modules/      
+node_modules/
+
+Stream*.txt      
 
 #XCode
 *.pbxuser  
