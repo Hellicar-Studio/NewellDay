@@ -81,7 +81,7 @@ public:
 		return 0;
 	}
 
-	char* sendMessage(string message) {
+	string sendMessage(string message) {
 		send(sock, message.c_str(), message.length(), 0);
 #ifdef _WIN32
 		valread = recv(sock, buffer, 1024, 0);

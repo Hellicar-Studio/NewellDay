@@ -10,7 +10,7 @@
 
 #define START 0
 #define STOP 4
-#define DURATION 1
+#define DURATION 20
 
 using namespace std;
 
@@ -41,6 +41,7 @@ int main()
 		rtspController[i].sendDescribe();
 		rtspController[i].setupSession();
 		rtspController[i].sendPlay();
+		_sleep(2000);
 	}
 
 	int count = 0;

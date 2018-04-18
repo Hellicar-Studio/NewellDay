@@ -41,13 +41,13 @@ public:
 		streamProfile.client_port = _clientPort;
 	}
 
-	char* sendMessage(string message) {
-		char *buff = ConnectionController::sendMessage(message);
+	string sendMessage(string message) {
+		string buff = ConnectionController::sendMessage(message);
 		numMessages++;
 		return buff;
 	}
 
-	char* sendOptions() {
+	string sendOptions() {
 		ostringstream oss;
 		if (streamProfile.sessionID == "") {
 			oss << "OPTIONS rtsp://" << IPAddress << ":" << port << "/axis-media/media.amp?videocodec=h264&streamprofile=UHDRes RTSP/1.0\r\nCSeq: " << numMessages << "\r\nUser-Agent: Sunrise Master\r\n\r\n";
@@ -61,7 +61,7 @@ public:
 		return sendMessage(message);
 	}
 
-	char* sendDescribe() {
+	string sendDescribe() {
 		ostringstream oss;
 		oss << "DESCRIBE rtsp://" << IPAddress << ":" << "/axis-media/media.amp?videocodec=h264&streamprofile=UHDRes RTSP/1.0\r\nCSeq: " << numMessages << "\r\nUser-Agent: Sunrise Master\r\nAccept: application/sdp\r\n\r\n";
 		string message = oss.str();
@@ -69,7 +69,7 @@ public:
 		return sendMessage(message);
 	}
 
-	char* sendSetup() {
+	string sendSetup() {
 		ostringstream oss;
 		oss << "SETUP rtsp://" << IPAddress << ":" << "/axis-media/media.amp?videocodec=h264&streamprofile=UHDRes RTSP/1.0\r\nCSeq: " << numMessages << "\r\nTransport: RTP/AVP;unicast;client_port=" << streamProfile.client_port << "-" << streamProfile.client_port + 1 << "\r\n\r\n";
 		string message = oss.str();
@@ -77,15 +77,15 @@ public:
 		return sendMessage(message);
 	}
 
-	char* setupSession() {
-		char* resp = sendSetup();
+	string setupSession() {
+		string resp = sendSetup();
 		streamProfile.sessionID = getParamFromResponseBuffer(resp, "Session: ", ";");
 		streamProfile.pictureAndSequenceParameters = getParamFromResponseBuffer(resp, "sprop-parameter-sets=", "\r\n");
 		listener->onRTSPControllerIsSetup(streamProfile);
 		return resp;
 	}
 
-	char* sendPlay() {
+	string sendPlay() {
 		ostringstream oss;
 		oss << "PLAY rtsp://" << IPAddress << ":" << "/axis-media/media.amp?videocodec=h264&streamprofile=UHDRes RTSP/1.0\r\nCSeq: " << numMessages << "\r\nSession: " << streamProfile.sessionID << "\r\nRange: npt=0.000-\r\n\r\n";
 		string message = oss.str();
@@ -93,7 +93,7 @@ public:
 		return sendMessage(message);
 	}
 
-	char* sendPause() {
+	string sendPause() {
 		ostringstream oss;
 		oss << "PAUSE rtsp://" << IPAddress << ":" << port << "/axis-media/media.amp?videocodec=h264&streamprofile=UHDRes RTSP/1.0\r\nCSeq: " << numMessages << "\r\nSession: " << streamProfile.sessionID << "\r\n\r\n";
 		string message = oss.str();
@@ -101,17 +101,17 @@ public:
 		return sendMessage(message);
 	}
 
-	char* sendTeardown() {
+	string sendTeardown() {
 		ostringstream oss;
 		oss << "TEARDOWN rtsp://" << IPAddress << ":" << port << "/axis-media/media.amp?videocodec=h264&streamprofile=UHDRes RTSP/1.0\r\nCSeq: " << numMessages << "\r\nSession: " << streamProfile.sessionID << "\r\n\r\n";
 		string message = oss.str();
 		printf("\nSending Teardown Request\n");
-		char *buff = sendMessage(message);
+		string buff = sendMessage(message);
 		numMessages = 0;
 		return buff;
 	}
 
-	string getParamFromResponseBuffer(char* response, string StartIdentifier, string EndIdentifier) {
+	string getParamFromResponseBuffer(string response, string StartIdentifier, string EndIdentifier) {
 		string resp = response;
 
 		size_t start = resp.find(StartIdentifier);
