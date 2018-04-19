@@ -15,11 +15,14 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-	// Test 12
+	// Test 123
 	SunriseFinder sunriseFinder;
 	sunriseFinder.setTime();
-	string host = sunriseFinder.getHostnameFromURL("https://api.sunrise-sunset.org/json?lat=36.7201600&lng=-4.4203400");
-	cout << host << endl;
+	sunriseFinder.initializeWinSock();
+	sunriseFinder.setIPAndPort("https://api.sunrise-sunset.org/api", 80);
+	cout << sunriseFinder.IPAddress << endl;
+	sunriseFinder.connectToServer();
+	sunriseFinder.sendGetSunrise();
 	//RTSPController rtspController[4]; // These cameras listen for RTSP by default on port 554 and for HTTP by default on port 80
 	//RTSPControllerListener rtspControllerListener[4];
 	//int duration = 60;
