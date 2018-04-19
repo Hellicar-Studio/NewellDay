@@ -2,7 +2,6 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-
 	font.load("verdana.ttf", 100);
 	ofBackground(0);
 }
