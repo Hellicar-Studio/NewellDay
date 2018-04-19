@@ -1,3 +1,4 @@
+#pragma once
 #include "stdafx.h"
 #ifdef _WIN32
 #include <WinSock2.h>
