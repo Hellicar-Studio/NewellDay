@@ -8,16 +8,21 @@
 #include "RTSPController.cpp"
 #include "SunriseFinder.cpp"
 
-#define START 0
+#define START 3
 #define STOP 4
 
 using namespace std;
 
 int main(int argc, char* argv[])
 {
-	// Test 12
+	// Test 123
 	SunriseFinder sunriseFinder;
 	sunriseFinder.setTime();
+	sunriseFinder.initializeWinSock();
+	sunriseFinder.setIPAndPort("https://api.sunrise-sunset.org/api", 80);
+	cout << sunriseFinder.IPAddress << endl;
+	sunriseFinder.connectToServer();
+	sunriseFinder.sendGetSunrise();
 	RTSPController rtspController[4]; // These cameras listen for RTSP by default on port 554 and for HTTP by default on port 80
 	RTSPControllerListener rtspControllerListener[4];
 	int duration = 60;
@@ -52,7 +57,8 @@ int main(int argc, char* argv[])
 	for (int i = START; i < STOP; i++) {
 		rtspController[i].sendOptions();
 		rtspController[i].sendDescribe();
-		rtspController[i].setupSession();
+		string s = rtspController[i].setupSession();
+		cout << s << endl;
 		ostringstream oss;
 		oss << "Stream" << i << "Parameters.txt";
 		rtspController[i].writeStreamParametersToFile(oss.str());
@@ -75,15 +81,6 @@ int main(int argc, char* argv[])
 		rtspController[i].sendPause();
 		rtspController[i].sendTeardown();
 	}
-
-
-	//for (int i = 0; i < 4; i++) {
-	//	controller[i].sendActivateVirtualPort(1);
-	//}
-
-	//for (int i = 0; i < 4; i++) {
-	//	controller[i].sendDeactivateVirtualPort(1);
-	//}
 
     return 0;
 }

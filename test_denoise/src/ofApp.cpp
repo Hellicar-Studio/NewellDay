@@ -2,8 +2,9 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-	font.load("verdana.ttf", 100);
-	ofBackground(0);
+	denoise.load("shaders/denoise");
+	img.load("images/brooklyn1.jpg");
+	buffer.allocate(img.getWidth(), img.getHeight());
 }
 
 //--------------------------------------------------------------
@@ -13,14 +14,25 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+	buffer.begin();
+	ofSetColor(255, 0, 255);
+	denoise.begin();
+	denoise.setUniformTexture("inputTexture", img, 0);
+	denoise.setUniform2f("resolution", img.getWidth(), img.getHeight());
+	ofDrawRectangle(0, 0, img.getWidth(), img.getHeight());
+	denoise.end();
+	buffer.end();
+
 	ofSetColor(255);
-	//ofScale(10, 10);
-	font.drawString(ofToString(ofGetElapsedTimef()), ofGetWidth() / 2, ofGetHeight() / 2);
+	img.draw(0, 0);
+	buffer.draw(img.getWidth(), 0);
+
+	ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()), ofVec2f(20, 20));
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-	ofResetElapsedTimeCounter();
+
 }
 
 //--------------------------------------------------------------
