@@ -2,7 +2,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-	img.load("images/Wideview.jpg");
+	img.load("images/landscape.jpg");
 	img.resize(15360, 2160);
 
 	viewSpace.allocate(15360, 2160);
@@ -65,11 +65,12 @@ void ofApp::draw(){
 		outputMonitors[i].draw();
 	}
 	wallSpace.end();
+    
+    float scale = ofGetWidth() / viewSpace.getWidth();
 
-
-	viewSpace.draw(0, ofGetHeight() - viewSpace.getHeight() / 4, viewSpace.getWidth() / 4, viewSpace.getHeight() / 4);
-	monitorSpace.draw(0, ofGetHeight() - viewSpace.getHeight() / 4 - monitorSpace.getHeight() / 4, monitorSpace.getWidth() / 4, monitorSpace.getHeight() / 4);
-	wallSpace.draw(0, 0, wallSpace.getWidth() / 4, wallSpace.getHeight() / 4);
+	viewSpace.draw(0, ofGetHeight() - viewSpace.getHeight() * scale, viewSpace.getWidth() *scale, viewSpace.getHeight() *scale);
+	monitorSpace.draw(0, ofGetHeight() - viewSpace.getHeight() * scale - monitorSpace.getHeight() * scale, monitorSpace.getWidth() *scale , monitorSpace.getHeight() *scale);
+	wallSpace.draw(0, 0, wallSpace.getWidth() * scale, wallSpace.getHeight() * scale );
 
 	for (int i = 0; i < 4; i++) {
 		cams[i].drawGui();

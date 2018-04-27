@@ -19,7 +19,7 @@ public:
 		ofPushStyle();
 		ofNoFill();
 		ofSetColor(0);
-		ofSetLineWidth(5);
+		ofSetLineWidth(10);
 		ofDrawRectangle(x, y, width, height);
 		ofSetColor(255);
 		monitorBuffer->getTexture().drawSubsection(x, y, viewRegion->width, viewRegion->height, viewRegion->x, viewRegion->y);

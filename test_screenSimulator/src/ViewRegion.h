@@ -9,7 +9,8 @@ public:
 	}
 
 	void setup(int _x, int _y, int _width, int _height, int _xMin, int _index) {
-		gui.setName("View Region: " + ofToString(_index));
+        string name = "View Region: " + ofToString(_index);
+		gui.setName(name);
 		gui.add(x.set("X", _x + _xMin, _xMin, _xMin + 3840 - _width));
 		gui.add(y.set("Y", _y, 0, 2160 - _height));
 		width = _width;
@@ -19,7 +20,7 @@ public:
 		ofPushStyle();
 		ofSetColor(255, 255, 0);
 		ofNoFill();
-		ofSetLineWidth(5);
+		ofSetLineWidth(10);
 		ofDrawRectangle(x, y, width, height);
 		ofPopStyle();
 	}
