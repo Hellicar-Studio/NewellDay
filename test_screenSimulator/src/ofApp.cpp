@@ -22,7 +22,7 @@ void ofApp::setup(){
 		fourKMonitors[i].setup(x, y, i);
 		x += 3840;
 	}
-
+    
 	outputMonitors.resize(12);
 	x = 0;
 	y = 0;
@@ -30,20 +30,56 @@ void ofApp::setup(){
 		outputMonitors[i].setup(x, y, fourKMonitors[i/3].getViewRegion(i%3), &monitorSpace);
 		x += 1080;
 	}
-
-
+    
+    ipcams = ofx::Video::IpVideoGrabberSettings::fromFile("streamsPublic.json");
+    
+    reloadCameras();
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    for (auto& grabber: grabbers)
+    {
+        grabber->update();
+    }
+}
 
+//--------------------------------------------------------------
+ofx::Video::IpVideoGrabberSettings& ofApp::getNextCamera()
+{
+    nextCamera = (nextCamera + 1) % ipcams.size();
+    return ipcams[nextCamera];
+}
+
+
+//--------------------------------------------------------------
+void ofApp::reloadCameras()
+{
+    // Clear the grabbers.
+    grabbers.clear();
+    
+    // Initialize new grabbers.
+    for (std::size_t i = 0; i < numCameras; ++i)
+    {
+        auto c = std::make_shared<ofx::Video::IPVideoGrabber>();
+        auto& settings = getNextCamera();
+        c->setUsername(settings.getUsername());
+        c->setPassword(settings.getPassword());
+        c->setURI(settings.getURL());
+        c->connect();
+        
+        grabbers.push_back(c);;
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
 	viewSpace.begin();
 	ofBackground(127);
-	img.draw(0, 0);
+    grabbers[0]->draw(0, 0, 3840, 2160);
+    grabbers[1]->draw(3840, 0, 3840, 2160);
+    grabbers[0]->draw(3840*2, 0, 3840, 2160);
+    grabbers[1]->draw(3840*3, 0, 3840, 2160);
 	for (int i = 0; i < 4; i++) {
 		cams[i].draw();
 	}

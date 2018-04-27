@@ -1,6 +1,6 @@
-<group>
-	<X>748.8</X>
+<?xml version="1.0"?>
+<CamControl0>
+	<X>0</X>
 	<Y>0</Y>
 	<Screen_Pos_X>0</Screen_Pos_X>
-<group/>
-</group>
+</CamControl0>

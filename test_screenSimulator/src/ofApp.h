@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "OutputMonitor.h"
 #include "MonitorFourK.h"
+#include "IPVideoGrabber.h"
 
 class ofApp : public ofBaseApp{
 
@@ -23,6 +24,12 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
+    
+        void reloadCameras();
+        ofx::Video::IpVideoGrabberSettings& getNextCamera();
+    
+        std::size_t numCameras = 2;
+        std::size_t nextCamera = 0;
 
 		ofImage img;
 
@@ -31,4 +38,7 @@ class ofApp : public ofBaseApp{
 		vector<MonitorFourK> fourKMonitors;
 
 		ofFbo viewSpace, wallSpace, monitorSpace;
+    
+        vector<shared_ptr<ofx::Video::IPVideoGrabber>> grabbers;
+        vector<ofx::Video::IpVideoGrabberSettings> ipcams; // a list of IPCameras
 };

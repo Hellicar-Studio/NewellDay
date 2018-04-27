@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <group>
 	<View_Region:_0>
 		<X>11520</X>
@@ -12,3 +13,17 @@
 		<Y>0</Y>
 	</View_Region:_2>
 </group>
+<Monitor3>
+	<View_Region:_0>
+		<X>11520</X>
+		<Y>0</Y>
+	</View_Region:_0>
+	<View_Region:_1>
+		<X>12600</X>
+		<Y>0</Y>
+	</View_Region:_1>
+	<View_Region:_2>
+		<X>13680</X>
+		<Y>0</Y>
+	</View_Region:_2>
+</Monitor3>

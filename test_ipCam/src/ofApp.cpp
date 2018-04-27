@@ -75,7 +75,6 @@ void ofApp::reloadCameras()
     }
 }
 
-
 void ofApp::videoResized(const void* sender, ofResizeEventArgs& arg)
 {
     // Find the camera that sent the resize event changed.

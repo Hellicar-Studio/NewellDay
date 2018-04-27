@@ -14,7 +14,7 @@ public:
 	}
 	void setup(int _x, int _y, ofColor _col, ofFbo* _viewBuffer, int _index) {
         string name = "CamControl" + ofToString(_index);
-		gui.setup(name, name + ".xml");
+		gui.setup(name, "settings/" + name + ".xml");
 		gui.add(x.set("X", _x, 0, 15360 - 3840));
 		gui.add(y.set("Y", _y, 0, 2160));
 		gui.add(screenPositionX.set("Screen Pos X",0, 0, 15360 - 3840));

@@ -1,0 +1,4 @@
+[
+	{ "url": "http://192.168.100.24/axis-cgi/mjpg/video.cgi?resolution=1920x1080" },
+	{ "url": "http://192.168.100.26/axis-cgi/mjpg/video.cgi?resolution=1920x1080" }
+]
