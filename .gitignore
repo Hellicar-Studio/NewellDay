@@ -106,6 +106,8 @@ Desktop.ini
 *.jpg
 *.gif
 *.avi
+*.mp4
+*.pdf
 
 # Visual C++ cache files
 ipch/
