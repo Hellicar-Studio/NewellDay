@@ -10,14 +10,18 @@ void ofApp::setup(){
 	monitorSpace.allocate(15360, 2160);
 
 	cams.resize(4);
-	cams[0].setup(0, 0, ofColor(255, 0, 0), &viewSpace, 0);
-	cams[1].setup(0, 0, ofColor(0, 255, 0), &viewSpace, 1);
-	cams[2].setup(0, 0, ofColor(0, 0, 255), &viewSpace, 2);
-	cams[3].setup(0, 0, ofColor(255, 255, 0), &viewSpace, 3);
+	cams[0].setup(3840*0, 0, ofColor(255, 0, 0), &viewSpace, 0);
+	cams[1].setup(3840*1, 0, ofColor(0, 255, 0), &viewSpace, 1);
+	cams[2].setup(3840*2, 0, ofColor(0, 0, 255), &viewSpace, 2);
+	cams[3].setup(3840*3, 0, ofColor(255, 255, 0), &viewSpace, 3);
+    cams[0].getVideoPlayer()->load("videos/example.mp4");
+    cams[1].getVideoPlayer()->load("videos/example.mp4");
+    cams[2].getVideoPlayer()->load("videos/example.mp4");
+    cams[3].getVideoPlayer()->load("videos/example.mp4");
 
 	fourKMonitors.resize(4);
 	int x = 0;
-	int y = 0;
+	int y = 120;
 	for (int i = 0; i < fourKMonitors.size(); i++) {
 		fourKMonitors[i].setup(x, y, i);
 		x += 3840;
@@ -31,55 +35,62 @@ void ofApp::setup(){
 		x += 1080;
 	}
     
-    ipcams = ofx::Video::IpVideoGrabberSettings::fromFile("streamsPublic.json");
+//    for(int i = 0; i < videoPlayers.size(); i++) {
+//        videoPlayers[i].load("videos/example.mp4");
+//    }
     
-    reloadCameras();
+//    ipcams = ofx::Video::IpVideoGrabberSettings::fromFile("streamsPublic.json");
+    
+//    reloadCameras();
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    for (auto& grabber: grabbers)
-    {
-        grabber->update();
+    for(int i = 0; i < cams.size(); i++) {
+        cams[i].update();
     }
+//    for (auto player: videoPlayers)
+//    {
+//        player.update();
+//    }
 }
 
 //--------------------------------------------------------------
-ofx::Video::IpVideoGrabberSettings& ofApp::getNextCamera()
-{
-    nextCamera = (nextCamera + 1) % ipcams.size();
-    return ipcams[nextCamera];
-}
+//ofx::Video::IpVideoGrabberSettings& ofApp::getNextCamera()
+//{
+//    nextCamera = (nextCamera + 1) % ipcams.size();
+//    return ipcams[nextCamera];
+//}
 
 
 //--------------------------------------------------------------
-void ofApp::reloadCameras()
-{
-    // Clear the grabbers.
-    grabbers.clear();
-    
-    // Initialize new grabbers.
-    for (std::size_t i = 0; i < numCameras; ++i)
-    {
-        auto c = std::make_shared<ofx::Video::IPVideoGrabber>();
-        auto& settings = getNextCamera();
-        c->setUsername(settings.getUsername());
-        c->setPassword(settings.getPassword());
-        c->setURI(settings.getURL());
-        c->connect();
-        
-        grabbers.push_back(c);;
-    }
-}
+//void ofApp::reloadCameras()
+//{
+//    // Clear the grabbers.
+//    grabbers.clear();
+//
+//    // Initialize new grabbers.
+//    for (std::size_t i = 0; i < numCameras; ++i)
+//    {
+//        auto c = std::make_shared<ofx::Video::IPVideoGrabber>();
+//        auto& settings = getNextCamera();
+//        c->setUsername(settings.getUsername());
+//        c->setPassword(settings.getPassword());
+//        c->setURI(settings.getURL());
+//        c->connect();
+//
+//        grabbers.push_back(c);;
+//    }
+//}
 
 //--------------------------------------------------------------
 void ofApp::draw(){
 	viewSpace.begin();
 	ofBackground(127);
-    grabbers[0]->draw(0, 0, 3840, 2160);
-    grabbers[1]->draw(3840, 0, 3840, 2160);
-    grabbers[0]->draw(3840*2, 0, 3840, 2160);
-    grabbers[1]->draw(3840*3, 0, 3840, 2160);
+//    videoPlayers[0].draw(3840*0, 0, 3840, 2160);
+//    videoPlayers[1].draw(3840*1, 0, 3840, 2160);
+//    videoPlayers[2].draw(3840*2, 0, 3840, 2160);
+//    videoPlayers[3].draw(3840*3, 0, 3840, 2160);
 	for (int i = 0; i < 4; i++) {
 		cams[i].draw();
 	}
@@ -117,7 +128,11 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-
+    if(key == 'p') {
+        for(int i = 0; i < cams.size(); i++) {
+            cams[i].toggleVideoPause();
+        }
+    }
 }
 
 //--------------------------------------------------------------

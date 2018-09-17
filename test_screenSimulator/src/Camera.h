@@ -14,15 +14,20 @@ public:
 	}
 	void setup(int _x, int _y, ofColor _col, ofFbo* _viewBuffer, int _index) {
         string name = "CamControl" + ofToString(_index);
-		gui.setup(name, "settings/" + name + ".xml");
-		gui.add(x.set("X", _x, 0, 15360 - 3840));
-		gui.add(y.set("Y", _y, 0, 2160));
-		gui.add(screenPositionX.set("Screen Pos X",0, 0, 15360 - 3840));
-        gui.loadFromFile("settings/" + name + ".xml");
-		col = _col;
-		viewBuffer = _viewBuffer; 
-		gui.setPosition(20 + (gui.getWidth() + 10)*_index, 600);
+        gui.setup(name, "settings/" + name + ".xml");
+        gui.add(x.set("X", _x, 0, 15360 - 3840));
+        gui.add(y.set("Y", _y, 0, 2160));
+        gui.add(screenPositionX.set("Screen Pos X",0, 0, 15360 - 3840));
+//        gui.loadFromFile("settings/" + name + ".xml");
+        col = _col;
+        viewBuffer = _viewBuffer;
+        gui.setPosition(20 + (gui.getWidth() + 10)*_index, 600);
 	}
+    
+    void update() {
+        player.update();
+        screenPositionX = x;
+    }
 
 	void draw() {
 		ofPushStyle();
@@ -30,6 +35,9 @@ public:
 		ofSetColor(col);
 		ofSetLineWidth(10);
 		ofDrawRectangle(x, y, width, height);
+        ofFill();
+        ofSetColor(255);
+        player.draw(x, y, width, height);
 		ofPopStyle();
 	}
 
@@ -43,10 +51,18 @@ public:
 	void drawGui() {
 		gui.draw();
 	}
+    
+    ofVideoPlayer* getVideoPlayer() { return &player; };
+    
+    bool toggleVideoPause() {
+        player.setPaused(!player.isPaused());
+    }
+    
 private:
 	ofxPanel gui;
 	ofFbo* viewBuffer;
 	ofParameter<float> x, y, width, height;
 	ofParameter<float> screenPositionX, screenPositionY;
 	ofColor col;
+    ofVideoPlayer player;
 };

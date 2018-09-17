@@ -1,29 +1,14 @@
-<?xml version="1.0"?>
 <group>
 	<View_Region:_0>
-		<X>4431</X>
+		<X>3840</X>
 		<Y>0</Y>
 	</View_Region:_0>
 	<View_Region:_1>
-		<X>5515</X>
+		<X>4924</X>
 		<Y>0</Y>
 	</View_Region:_1>
 	<View_Region:_2>
-		<X>6600</X>
+		<X>6008</X>
 		<Y>0</Y>
 	</View_Region:_2>
 </group>
-<Monitor1>
-	<View_Region:_0>
-		<X>4435</X>
-		<Y>0</Y>
-	</View_Region:_0>
-	<View_Region:_1>
-		<X>5519</X>
-		<Y>0</Y>
-	</View_Region:_1>
-	<View_Region:_2>
-		<X>6600</X>
-		<Y>0</Y>
-	</View_Region:_2>
-</Monitor1>

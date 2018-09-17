@@ -1,6 +1,10 @@
-<?xml version="1.0"?>
 <CamControl2>
 	<X>7680</X>
 	<Y>0</Y>
 	<Screen_Pos_X>7660.8</Screen_Pos_X>
+<group>
+		<X>7603.2</X>
+		<Y>0</Y>
+		<Screen_Pos_X>7603.2</Screen_Pos_X>
+	</group>
 </CamControl2>

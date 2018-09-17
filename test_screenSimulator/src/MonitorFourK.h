@@ -14,16 +14,23 @@ public:
 	void setup(int _x, int _y, int _index) {
 		x = _x;
 		y = _y;
-		viewRegions[0].setup(0, 0, 1080, 1920, _x, 0);
-		viewRegions[1].setup(1080, 0, 1080, 1920, _x, 1);
-		viewRegions[2].setup(2160, 0, 1080, 1920, _x, 2);
-        
+        cout<<y<<endl;
+        if(_index%2) {
+            viewRegions[0].setup(0, y, 1080, 1920, _x, 0);
+            viewRegions[1].setup(1080, y, 1080, 1920, _x, 1);
+            viewRegions[2].setup(2160, y, 1080, 1920, _x, 2);
+        } else {
+            viewRegions[0].setup(600, y, 1080, 1920, _x, 0);
+            viewRegions[1].setup(1680, y, 1080, 1920, _x, 1);
+            viewRegions[2].setup(2760, y, 1080, 1920, _x, 2);
+        }
+
         string name = "Monitor" + ofToString(_index);
 		gui.setup(name, "settings/" + name + ".xml");
 		gui.add(viewRegions[0].gui);
 		gui.add(viewRegions[1].gui);
 		gui.add(viewRegions[2].gui);
-        gui.loadFromFile("settings/" + name + ".xml");
+//        gui.loadFromFile("settings/" + name + ".xml");
 
 		gui.setPosition(20 + (gui.getWidth() + 10) * _index, 680);
 	}
