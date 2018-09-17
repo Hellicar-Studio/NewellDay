@@ -1,0 +1,70 @@
+{
+  "Camera:0": {
+    "DebugDraw": false,
+    "EdgeLeftInner": 0,
+    "EdgeLeftOuter": 0,
+    "EdgeRightInner": 0,
+    "EdgeRightOuter": 0,
+    "HSVHue": 0,
+    "HSVSaturation": 0,
+    "HSVValue": 0,
+    "Height": 2160,
+    "Rotation": 0,
+    "Width": 3840,
+    "X": 152.88,
+    "Y": -180,
+    "Z-order": 0
+  },
+  "Camera:1": {
+    "DebugDraw": false,
+    "EdgeLeftInner": 413.65,
+    "EdgeLeftOuter": 0,
+    "EdgeRightInner": 0,
+    "EdgeRightOuter": 0,
+    "HSVHue": 0,
+    "HSVSaturation": 0,
+    "HSVValue": 0,
+    "Height": 2160,
+    "Rotation": 0.25,
+    "Width": 3840,
+    "X": 3557,
+    "Y": -240,
+    "Z-order": 1
+  },
+  "Camera:2": {
+    "DebugDraw": false,
+    "EdgeLeftInner": 0,
+    "EdgeLeftOuter": 0,
+    "EdgeRightInner": 0,
+    "EdgeRightOuter": 0,
+    "HSVHue": 0,
+    "HSVSaturation": 0,
+    "HSVValue": 0,
+    "Height": 2160,
+    "Rotation": 0,
+    "Width": 3840,
+    "X": 8090.16,
+    "Y": -10.51,
+    "Z-order": 2
+  },
+  "Camera:3": {
+    "DebugDraw": false,
+    "EdgeLeftInner": 358.49,
+    "EdgeLeftOuter": 0,
+    "EdgeRightInner": 0,
+    "EdgeRightOuter": 0,
+    "HSVHue": 0,
+    "HSVSaturation": 0,
+    "HSVValue": 0.15,
+    "Height": 2160,
+    "Rotation": 360,
+    "Width": 3840,
+    "X": 11300,
+    "Y": -30,
+    "Z-order": 3
+  },
+  "General": {
+    "FadeInDuration": 5,
+    "UseLUT": false
+  }
+}

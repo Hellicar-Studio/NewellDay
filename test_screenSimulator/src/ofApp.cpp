@@ -10,18 +10,18 @@ void ofApp::setup(){
 	monitorSpace.allocate(15360, 2160);
 
 	cams.resize(4);
-	cams[0].setup(3840*0, 0, ofColor(255, 0, 0), &viewSpace, 0);
-	cams[1].setup(3840*1, 0, ofColor(0, 255, 0), &viewSpace, 1);
-	cams[2].setup(3840*2, 0, ofColor(0, 0, 255), &viewSpace, 2);
-	cams[3].setup(3840*3, 0, ofColor(255, 255, 0), &viewSpace, 3);
-    cams[0].getVideoPlayer()->load("videos/example.mp4");
-    cams[1].getVideoPlayer()->load("videos/example.mp4");
-    cams[2].getVideoPlayer()->load("videos/example.mp4");
-    cams[3].getVideoPlayer()->load("videos/example.mp4");
+	cams[0].setup(152.88, -180, ofColor(255, 0, 0), &viewSpace, 0);
+	cams[1].setup(3557, -240, ofColor(0, 255, 0), &viewSpace, 1);
+	cams[2].setup(8090.16, -10.51, ofColor(0, 0, 255), &viewSpace, 2);
+	cams[3].setup(11300, -30, ofColor(255, 255, 0), &viewSpace, 3);
+    cams[0].getVideoPlayer()->load("videos/20181508bkln1.mp4");
+    cams[1].getVideoPlayer()->load("videos/20181508bkln1.mp4");
+    cams[2].getVideoPlayer()->load("videos/20181508bkln2.mp4");
+    cams[3].getVideoPlayer()->load("videos/20181508bkln1.mp4");
 
 	fourKMonitors.resize(4);
 	int x = 0;
-	int y = 120;
+	int y = 0;
 	for (int i = 0; i < fourKMonitors.size(); i++) {
 		fourKMonitors[i].setup(x, y, i);
 		x += 3840;
@@ -87,10 +87,6 @@ void ofApp::update(){
 void ofApp::draw(){
 	viewSpace.begin();
 	ofBackground(127);
-//    videoPlayers[0].draw(3840*0, 0, 3840, 2160);
-//    videoPlayers[1].draw(3840*1, 0, 3840, 2160);
-//    videoPlayers[2].draw(3840*2, 0, 3840, 2160);
-//    videoPlayers[3].draw(3840*3, 0, 3840, 2160);
 	for (int i = 0; i < 4; i++) {
 		cams[i].draw();
 	}
@@ -123,7 +119,10 @@ void ofApp::draw(){
 		cams[i].drawGui();
 		fourKMonitors[i].drawGui();
 	}
-
+    
+//    viewSpace.draw(0, 0);
+    
+//    cams[0].getVideoPlayer()->draw(0, 0);
 }
 
 //--------------------------------------------------------------

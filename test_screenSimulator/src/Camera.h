@@ -16,7 +16,7 @@ public:
         string name = "CamControl" + ofToString(_index);
         gui.setup(name, "settings/" + name + ".xml");
         gui.add(x.set("X", _x, 0, 15360 - 3840));
-        gui.add(y.set("Y", _y, 0, 2160));
+        gui.add(y.set("Y", _y, -240, 240));
         gui.add(screenPositionX.set("Screen Pos X",0, 0, 15360 - 3840));
 //        gui.loadFromFile("settings/" + name + ".xml");
         col = _col;
@@ -27,6 +27,7 @@ public:
     void update() {
         player.update();
         screenPositionX = x;
+        screenPositionY = y;
     }
 
 	void draw() {
@@ -44,7 +45,8 @@ public:
 	void drawOnMonitor() {
 		ofPushStyle();
 		ofSetColor(255);
-		viewBuffer->getTexture().drawSubsection(screenPositionX, screenPositionY, width, height, x, y);
+        player.draw(x, y, width, height);
+//        viewBuffer->getTexture().drawSubsection(screenPositionX, screenPositionY, width, height, x, y);
 		ofPopStyle();
 	}
 
