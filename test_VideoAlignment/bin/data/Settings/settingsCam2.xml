@@ -1,10 +1,10 @@
 <group>
 	<Scale>0.32</Scale>
-	<L1>0</L1>
-	<L2>0</L2>
+	<L1>96</L1>
+	<L2>1190.4</L2>
 	<Rot>0</Rot>
-	<Amount>0.92</Amount>
+	<Amount>0.93</Amount>
 	<Center>2292.24, 1873.47</Center>
-	<Offset>3565.71, 220.408</Offset>
+	<Offset>3506.94, 231.429</Offset>
 <group/>
 </group>

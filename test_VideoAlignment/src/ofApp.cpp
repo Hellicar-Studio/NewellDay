@@ -95,8 +95,8 @@ void ofApp::drawBuffer(ofFbo* buffer, int index) {
     buffer->draw(0, 0, buffer->getWidth(), buffer->getHeight());
     ofPopMatrix();
     ofSetColor(255, 255, 0);
-//    ofDrawLine(l1[index], 0, l1[index], currentPlayer->getHeight());
-//    ofDrawLine(l2[index], 0, l2[index], currentPlayer->getHeight());
+    ofDrawLine(l1[index], 0, l1[index], currentPlayer->getHeight());
+    ofDrawLine(l2[index], 0, l2[index], currentPlayer->getHeight());
     ofSetColor(0, 255, 0);
     ofDrawLine(0, buffer->getHeight()/2, buffer->getWidth(), buffer->getHeight()/2);
     ofSetColor(255, 0, 0);
