@@ -23,7 +23,7 @@ public:
         gui.add(cy.set("Dewarp Center Y", 2160/2, 0, 2160));
         gui.add(dwAmount.set("Dewarp Amount", 1.0, 0.0, 1.0));
         gui.add(screenPositionX.set("Screen Pos X",0, 0, 15360 - 3840));
-//        gui.loadFromFile("settings/" + name + ".xml");
+        gui.loadFromFile("settings/" + name + ".xml");
         col = _col;
         viewBuffer = _viewBuffer;
         gui.setPosition(20 + (gui.getWidth() + 10)*_index, 600);
@@ -33,6 +33,22 @@ public:
         player.update();
         screenPositionX = x;
         screenPositionY = y;
+        
+        vector<string> controls = gui.getControlNames();
+        for(int i = 0; i < controls.size(); i++) {
+            ofxBaseGui* control = gui.getControl(controls[i]);
+            ofRectangle s = control->getShape();
+            if(s.inside(ofVec2f(ofGetMouseX(), ofGetMouseY()))) {
+                if(ofGetKeyPressed(OF_KEY_LEFT)) {
+                    ofxFloatSlider slider = gui.getFloatSlider(controls[i]);
+                    slider = slider - 1;
+//                    cout<<"Left"<<endl;
+                } else if(ofGetKeyPressed(OF_KEY_RIGHT)) {
+                    ofxFloatSlider slider = gui.getFloatSlider(controls[i]);
+                    slider = slider + 1;
+                }
+            }
+        }
     }
 
 	void draw() {

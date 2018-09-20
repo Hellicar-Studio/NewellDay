@@ -14,10 +14,10 @@ void ofApp::setup(){
 	cams[1].setup(3557, -240, ofColor(0, 255, 0), &viewSpace, 1);
 	cams[2].setup(8090.16, -10.51, ofColor(0, 0, 255), &viewSpace, 2);
 	cams[3].setup(11300, -30, ofColor(255, 255, 0), &viewSpace, 3);
-    cams[0].getVideoPlayer()->load("videos/20181508bkln1.mp4");
+    cams[0].getVideoPlayer()->load("videos/20181508bkln0.mp4");
     cams[1].getVideoPlayer()->load("videos/20181508bkln1.mp4");
     cams[2].getVideoPlayer()->load("videos/20181508bkln2.mp4");
-    cams[3].getVideoPlayer()->load("videos/20181508bkln1.mp4");
+    cams[3].getVideoPlayer()->load("videos/20181508bkln3.mp4");
     
     for(int i = 0; i < cams.size(); i++) {
         cams[i].getShader()->load("shaders/dewarp");
@@ -121,12 +121,8 @@ void ofApp::draw(){
 
 	for (int i = 0; i < 4; i++) {
 		cams[i].drawGui();
-		fourKMonitors[i].drawGui();
+//        fourKMonitors[i].drawGui();
 	}
-    
-//    viewSpace.draw(0, 0);
-    
-//    cams[0].getVideoPlayer()->draw(0, 0);
 }
 
 //--------------------------------------------------------------
@@ -135,6 +131,12 @@ void ofApp::keyPressed(int key){
         for(int i = 0; i < cams.size(); i++) {
             cams[i].toggleVideoPause();
         }
+    }
+    if(key == 's') {
+        ofImage img;
+        img.allocate(wallSpace.getWidth(), wallSpace.getHeight(), OF_IMAGE_COLOR);
+        wallSpace.readToPixels(img);
+        img.save("Output" + ofToString(ofGetTimestampString()) + ".png");
     }
 }
 

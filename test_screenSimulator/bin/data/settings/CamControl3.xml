@@ -3,8 +3,11 @@
 	<Y>0</Y>
 	<Screen_Pos_X>11520</Screen_Pos_X>
 <group>
-		<X>11289.6</X>
-		<Y>-36</Y>
-		<Screen_Pos_X>11289.6</Screen_Pos_X>
+		<X>11540</X>
+		<Y>-53</Y>
+		<Screen_Pos_X>11540</Screen_Pos_X>
+	<Dewarp_Center_X>1920</Dewarp_Center_X>
+		<Dewarp_Center_Y>1080</Dewarp_Center_Y>
+		<Dewarp_Amount>0.935</Dewarp_Amount>
 	</group>
 </CamControl3>
