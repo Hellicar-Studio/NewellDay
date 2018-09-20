@@ -18,6 +18,10 @@ void ofApp::setup(){
     cams[1].getVideoPlayer()->load("videos/20181508bkln1.mp4");
     cams[2].getVideoPlayer()->load("videos/20181508bkln2.mp4");
     cams[3].getVideoPlayer()->load("videos/20181508bkln1.mp4");
+    
+    for(int i = 0; i < cams.size(); i++) {
+        cams[i].getShader()->load("shaders/dewarp");
+    }
 
 	fourKMonitors.resize(4);
 	int x = 0;

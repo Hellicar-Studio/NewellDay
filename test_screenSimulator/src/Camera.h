@@ -5,6 +5,7 @@
 
 class Camera {
 public:
+    
 	Camera() {
 		x = 0;
 		y = 0;
@@ -12,11 +13,15 @@ public:
 		height = 2160;
 		screenPositionY = 0;
 	}
+    
 	void setup(int _x, int _y, ofColor _col, ofFbo* _viewBuffer, int _index) {
         string name = "CamControl" + ofToString(_index);
         gui.setup(name, "settings/" + name + ".xml");
         gui.add(x.set("X", _x, 0, 15360 - 3840));
         gui.add(y.set("Y", _y, -240, 240));
+        gui.add(cx.set("Dewarp Center X", 3840/2, 0, 3840));
+        gui.add(cy.set("Dewarp Center Y", 2160/2, 0, 2160));
+        gui.add(dwAmount.set("Dewarp Amount", 1.0, 0.0, 1.0));
         gui.add(screenPositionX.set("Screen Pos X",0, 0, 15360 - 3840));
 //        gui.loadFromFile("settings/" + name + ".xml");
         col = _col;
@@ -38,16 +43,29 @@ public:
 		ofDrawRectangle(x, y, width, height);
         ofFill();
         ofSetColor(255);
-        player.draw(x, y, width, height);
+        shader.begin();
+        shader.setUniform2f("center", ofVec2f(cx, cy));
+        shader.setUniform1f("amount", dwAmount);
+        shader.setUniform2f("resolution", player.getWidth(), player.getHeight());
+        shader.setUniform2f("offset", ofVec2f(x, y));
+        shader.setUniformTexture("inputTexture", player.getTexture(), 0);
+        ofDrawRectangle(x, y, player.getWidth(), player.getHeight());
+        shader.end();
 		ofPopStyle();
 	}
 
 	void drawOnMonitor() {
 		ofPushStyle();
 		ofSetColor(255);
-        player.draw(x, y, width, height);
-//        viewBuffer->getTexture().drawSubsection(screenPositionX, screenPositionY, width, height, x, y);
-		ofPopStyle();
+        shader.begin();
+        shader.setUniform2f("center", ofVec2f(cx, cy));
+        shader.setUniform1f("amount", dwAmount);
+        shader.setUniform2f("resolution", player.getWidth(), player.getHeight());
+        shader.setUniform2f("offset", ofVec2f(x, y));
+        shader.setUniformTexture("inputTexture", player.getTexture(), 0);
+        ofDrawRectangle(x, y, player.getWidth(), player.getHeight());
+        shader.end();
+        ofPopStyle();
 	}
 
 	void drawGui() {
@@ -55,6 +73,7 @@ public:
 	}
     
     ofVideoPlayer* getVideoPlayer() { return &player; };
+    ofShader* getShader() { return &shader; };
     
     bool toggleVideoPause() {
         player.setPaused(!player.isPaused());
@@ -63,8 +82,9 @@ public:
 private:
 	ofxPanel gui;
 	ofFbo* viewBuffer;
-	ofParameter<float> x, y, width, height;
+	ofParameter<float> x, y, width, height, cx, cy, dwAmount;
 	ofParameter<float> screenPositionX, screenPositionY;
 	ofColor col;
     ofVideoPlayer player;
+    ofShader shader;
 };
