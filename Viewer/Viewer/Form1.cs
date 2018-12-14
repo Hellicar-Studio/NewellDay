@@ -20,6 +20,7 @@ namespace Viewer
         Thread renderThread;
         private static bool showGui = false;
         private static Form2Gui gui;
+        private static int scale = 1;
 
         public Form1()
         {
@@ -75,7 +76,6 @@ namespace Viewer
 
                     while(true)
                     {
-                        Console.WriteLine("Video Started!");
                         viewer.Start();
 
                         while (inFile.PeekChar() != -1)
@@ -91,12 +91,10 @@ namespace Viewer
                             if (sampleType != (int)AMV_VIDEO_SAMPLE_TYPE.AMV_VST_MPEG4_AUDIO)
                             {
                                 // Let the viewer render the frame
-                                viewer.SetVideoPosition(0, -1080 / 2, 1920, 1080 / 2);
+                                viewer.SetVideoPosition(0, 0, 1920 / scale, 1080 / scale);
                                 viewer.RenderVideoSample(sampleFlags, startTime, stopTime, bufferBytes);
                             }
                         }
-
-                        Console.WriteLine("Video Done!");
 
                         inFile.BaseStream.Position = startPosition;
 
@@ -110,6 +108,13 @@ namespace Viewer
                 MessageBox.Show(string.Format("Exception {0}", e.Message));
             }
         }
+
+        public void trackBar1_Scroll(object sender, System.EventArgs e)
+        {
+            scale = (sender as TrackBar).Value + 1;
+        }
+
+
 
         private delegate void ResizeFormToFitVideoSizeDelegate(int width, int height);
 

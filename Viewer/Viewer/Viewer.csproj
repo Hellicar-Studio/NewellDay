@@ -86,6 +86,23 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <COMReference Include="AxAXISMEDIACONTROLLib">
+      <Guid>{A48F4EE0-B408-4376-B4C9-BC9CF6E16EBC}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="AXISMEDIACONTROLLib">
+      <Guid>{A48F4EE0-B408-4376-B4C9-BC9CF6E16EBC}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
     <COMReference Include="AxisMediaViewerLib">
       <Guid>{F6A698FA-9E65-4757-B01C-F17674D37707}</Guid>
       <VersionMajor>3</VersionMajor>

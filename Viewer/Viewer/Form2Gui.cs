@@ -19,6 +19,7 @@ namespace Viewer
             mf = mainForm;
             InitializeComponent();
             trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            trackBar1.Scroll += new System.EventHandler(mf.trackBar1_Scroll);
         }
 
         private void trackBar1_Scroll(object sender, System.EventArgs e)
