@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{30D9B75D-19A8-4FBF-8926-6A9B2EFB8780}</ProjectGuid>
+    <ProjectGuid>{CBE60922-676A-459A-BD17-9C0DD983FEFC}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Viewer</RootNamespace>
@@ -52,8 +52,17 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Form2Gui.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form2Gui.Designer.cs">
+      <DependentUpon>Form2Gui.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Form2Gui.resx">
+      <DependentUpon>Form2Gui.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
