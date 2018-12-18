@@ -18,13 +18,18 @@ namespace Viewer
         {
             mf = mainForm;
             InitializeComponent();
-            trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
-            trackBar1.Scroll += new System.EventHandler(mf.trackBar1_Scroll);
+            XPosition.ValueChanged += new System.EventHandler(mf.OnParameterChanged);
+            YPosition.ValueChanged += new System.EventHandler(mf.OnParameterChanged);
+            Width.ValueChanged += new System.EventHandler(mf.OnParameterChanged);
+            Height.ValueChanged += new System.EventHandler(mf.OnParameterChanged);
+
+            //trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            //trackBar1.Scroll += new System.EventHandler(mf.trackBar1_Scroll);
         }
 
-        private void trackBar1_Scroll(object sender, System.EventArgs e)
+        private void GuiForm_Load(object sender, EventArgs e)
         {
-            textBox1.Text = "" + trackBar1.Value;
+
         }
     }
 }

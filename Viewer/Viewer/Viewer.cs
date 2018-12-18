@@ -22,6 +22,11 @@ namespace Viewer
         private static GuiForm gui;
         private static int scale = 1;
 
+        private static int VideoXPos;
+        private static int VideoYPos;
+        private static int VideoWidth;
+        private static int VideoHeight;
+
         public ViewerForm()
         {
             InitializeComponent();
@@ -37,10 +42,10 @@ namespace Viewer
             gui = new GuiForm(this);
             gui.Show();
 
-            this.KeyPress += new KeyPressEventHandler(Form1_KeyPress);
+            this.KeyPress += new KeyPressEventHandler(OnKeyPress);
         }
 
-        void Form1_KeyPress(object sender, KeyPressEventArgs e)
+        void OnKeyPress(object sender, KeyPressEventArgs e)
         {
             if(e.KeyChar == 'g')
             {
@@ -49,6 +54,29 @@ namespace Viewer
                     gui.Show();
                 else
                     gui.Hide();
+            }
+        }
+
+        public void OnParameterChanged(object sender, System.EventArgs e)
+        {
+            string name = (sender as NumericUpDown).Name;
+            int v = (int)(sender as NumericUpDown).Value;
+            switch(name)
+            {
+                case "XPosition":
+                    VideoXPos = v;
+                    break;
+                case "YPosition":
+                    VideoYPos = v;
+                    break;
+                case "Width":
+                    VideoWidth = v;
+                    break;
+                case "Height":
+                    VideoHeight = v;
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -91,7 +119,7 @@ namespace Viewer
                             if (sampleType != (int)AMV_VIDEO_SAMPLE_TYPE.AMV_VST_MPEG4_AUDIO)
                             {
                                 // Let the viewer render the frame
-                                viewer.SetVideoPosition(0, 0, 1920 / scale, 1080 / scale);
+                                viewer.SetVideoPosition(VideoXPos, VideoYPos, VideoXPos + VideoWidth, VideoYPos + VideoHeight);
                                 viewer.RenderVideoSample(sampleFlags, startTime, stopTime, bufferBytes);
                             }
                         }
@@ -108,13 +136,6 @@ namespace Viewer
                 MessageBox.Show(string.Format("Exception {0}", e.Message));
             }
         }
-
-        public void trackBar1_Scroll(object sender, System.EventArgs e)
-        {
-            scale = (sender as TrackBar).Value + 1;
-        }
-
-
 
         private delegate void ResizeFormToFitVideoSizeDelegate(int width, int height);
 
