@@ -16,10 +16,10 @@ namespace Viewer
 {
     public class Settings
     {
-        public static int XPosition { set; get; };
-        public static int YPosition { set; get; };
-        public static int Width { set; get; };
-        public static int Height { set; get; };
+        public static int XPosition { set; get; }
+        public static int YPosition { set; get; }
+        public static int Width { set; get; }
+        public static int Height { set; get; }
 
     }
     public partial class GuiForm : Form
