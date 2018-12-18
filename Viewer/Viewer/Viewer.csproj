@@ -46,22 +46,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="Viewer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Viewer.Designer.cs">
+      <DependentUpon>Viewer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form2Gui.cs">
+    <Compile Include="GuiForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form2Gui.Designer.cs">
-      <DependentUpon>Form2Gui.cs</DependentUpon>
+    <Compile Include="GuiForm.Designer.cs">
+      <DependentUpon>GuiForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form2Gui.resx">
-      <DependentUpon>Form2Gui.cs</DependentUpon>
+    <EmbeddedResource Include="GuiForm.resx">
+      <DependentUpon>GuiForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

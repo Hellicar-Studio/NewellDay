@@ -11,10 +11,10 @@ using System.Windows.Forms;
 namespace Viewer
 {
 
-    public partial class Form2Gui : Form
+    public partial class GuiForm : Form
     {
-        private static Form1 mf;
-        public Form2Gui(Form1 mainForm)
+        private static ViewerForm mf;
+        public GuiForm(ViewerForm mainForm)
         {
             mf = mainForm;
             InitializeComponent();

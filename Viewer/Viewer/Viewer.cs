@@ -15,14 +15,14 @@ using AxisMediaViewerLib;
 
 namespace Viewer
 {
-    public partial class Form1 : Form
+    public partial class ViewerForm : Form
     {
         Thread renderThread;
         private static bool showGui = false;
-        private static Form2Gui gui;
+        private static GuiForm gui;
         private static int scale = 1;
 
-        public Form1()
+        public ViewerForm()
         {
             InitializeComponent();
 
@@ -34,7 +34,7 @@ namespace Viewer
 
             renderThread.Start(this.Handle);
 
-            gui = new Form2Gui(this);
+            gui = new GuiForm(this);
             gui.Show();
 
             this.KeyPress += new KeyPressEventHandler(Form1_KeyPress);

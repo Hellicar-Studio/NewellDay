@@ -1,6 +1,6 @@
 ﻿namespace Viewer
 {
-    partial class Form1
+    partial class ViewerForm
     {
         /// <summary>
         /// Required designer variable.

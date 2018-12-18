@@ -1,6 +1,6 @@
 ﻿namespace Viewer
 {
-    partial class Form2Gui
+    partial class GuiForm
     {
         /// <summary>
         /// Required designer variable.
