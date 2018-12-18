@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -20,7 +13,7 @@ namespace Viewer
         Thread renderThread;
         private static bool showGui = false;
         private static GuiForm gui;
-        private static int scale = 1;
+        //private static int scale = 1;
 
         private static int VideoXPos;
         private static int VideoYPos;

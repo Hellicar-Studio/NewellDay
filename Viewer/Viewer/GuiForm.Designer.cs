@@ -28,37 +28,37 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.XPosition = new System.Windows.Forms.NumericUpDown();
+            this.XPositionField = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.YPosition = new System.Windows.Forms.NumericUpDown();
-            this.Height = new System.Windows.Forms.NumericUpDown();
+            this.YPositionField = new System.Windows.Forms.NumericUpDown();
+            this.HeightField = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.Width = new System.Windows.Forms.NumericUpDown();
+            this.WidthField = new System.Windows.Forms.NumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.XPosition)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.YPosition)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Height)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Width)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.XPositionField)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.YPositionField)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.HeightField)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.WidthField)).BeginInit();
             this.SuspendLayout();
             // 
-            // XPosition
+            // XPositionField
             // 
-            this.XPosition.Location = new System.Drawing.Point(12, 61);
-            this.XPosition.Maximum = new decimal(new int[] {
+            this.XPositionField.Location = new System.Drawing.Point(12, 61);
+            this.XPositionField.Maximum = new decimal(new int[] {
             3840,
             0,
             0,
             0});
-            this.XPosition.Minimum = new decimal(new int[] {
+            this.XPositionField.Minimum = new decimal(new int[] {
             3840,
             0,
             0,
             -2147483648});
-            this.XPosition.Name = "XPosition";
-            this.XPosition.Size = new System.Drawing.Size(120, 20);
-            this.XPosition.TabIndex = 3;
+            this.XPositionField.Name = "XPositionField";
+            this.XPositionField.Size = new System.Drawing.Size(120, 20);
+            this.XPositionField.TabIndex = 3;
             // 
             // label1
             // 
@@ -78,34 +78,34 @@
             this.label2.TabIndex = 5;
             this.label2.Text = "Y";
             // 
-            // YPosition
+            // YPositionField
             // 
-            this.YPosition.Location = new System.Drawing.Point(142, 61);
-            this.YPosition.Maximum = new decimal(new int[] {
+            this.YPositionField.Location = new System.Drawing.Point(142, 61);
+            this.YPositionField.Maximum = new decimal(new int[] {
             2160,
             0,
             0,
             0});
-            this.YPosition.Minimum = new decimal(new int[] {
+            this.YPositionField.Minimum = new decimal(new int[] {
             2160,
             0,
             0,
             -2147483648});
-            this.YPosition.Name = "YPosition";
-            this.YPosition.Size = new System.Drawing.Size(120, 20);
-            this.YPosition.TabIndex = 6;
+            this.YPositionField.Name = "YPositionField";
+            this.YPositionField.Size = new System.Drawing.Size(120, 20);
+            this.YPositionField.TabIndex = 6;
             // 
-            // Height
+            // HeightField
             // 
-            this.Height.Location = new System.Drawing.Point(142, 108);
-            this.Height.Maximum = new decimal(new int[] {
+            this.HeightField.Location = new System.Drawing.Point(142, 108);
+            this.HeightField.Maximum = new decimal(new int[] {
             2160,
             0,
             0,
             0});
-            this.Height.Name = "Height";
-            this.Height.Size = new System.Drawing.Size(120, 20);
-            this.Height.TabIndex = 10;
+            this.HeightField.Name = "HeightField";
+            this.HeightField.Size = new System.Drawing.Size(120, 20);
+            this.HeightField.TabIndex = 10;
             // 
             // label3
             // 
@@ -125,17 +125,17 @@
             this.label4.TabIndex = 8;
             this.label4.Text = "Width";
             // 
-            // Width
+            // WidthField
             // 
-            this.Width.Location = new System.Drawing.Point(12, 108);
-            this.Width.Maximum = new decimal(new int[] {
+            this.WidthField.Location = new System.Drawing.Point(12, 108);
+            this.WidthField.Maximum = new decimal(new int[] {
             3840,
             0,
             0,
             0});
-            this.Width.Name = "Width";
-            this.Width.Size = new System.Drawing.Size(120, 20);
-            this.Width.TabIndex = 7;
+            this.WidthField.Name = "WidthField";
+            this.WidthField.Size = new System.Drawing.Size(120, 20);
+            this.WidthField.TabIndex = 7;
             // 
             // label5
             // 
@@ -152,35 +152,35 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.Height);
+            this.Controls.Add(this.HeightField);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.Width);
-            this.Controls.Add(this.YPosition);
+            this.Controls.Add(this.WidthField);
+            this.Controls.Add(this.YPositionField);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.XPosition);
+            this.Controls.Add(this.XPositionField);
             this.Name = "GuiForm";
             this.Text = "GuiForm";
             this.Load += new System.EventHandler(this.GuiForm_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.XPosition)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.YPosition)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Height)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Width)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.XPositionField)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.YPositionField)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.HeightField)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.WidthField)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.NumericUpDown XPosition;
+        private System.Windows.Forms.NumericUpDown XPositionField;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.NumericUpDown YPosition;
-        private System.Windows.Forms.NumericUpDown Height;
+        private System.Windows.Forms.NumericUpDown YPositionField;
+        private System.Windows.Forms.NumericUpDown HeightField;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.NumericUpDown Width;
+        private System.Windows.Forms.NumericUpDown WidthField;
         private System.Windows.Forms.Label label5;
     }
 }
