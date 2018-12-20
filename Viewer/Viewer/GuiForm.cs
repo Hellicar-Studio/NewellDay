@@ -31,10 +31,10 @@ namespace Viewer
         {
             mf = mainForm;
             InitializeComponent();
-            XPositionField.ValueChanged += new System.EventHandler(mf.OnParameterChanged);
-            YPositionField.ValueChanged += new System.EventHandler(mf.OnParameterChanged);
-            WidthField.ValueChanged += new System.EventHandler(mf.OnParameterChanged);
-            HeightField.ValueChanged += new System.EventHandler(mf.OnParameterChanged);
+            //XPositionField.ValueChanged += new System.EventHandler(mf.OnParameterChanged);
+            //YPositionField.ValueChanged += new System.EventHandler(mf.OnParameterChanged);
+            //WidthField.ValueChanged += new System.EventHandler(mf.OnParameterChanged);
+            //HeightField.ValueChanged += new System.EventHandler(mf.OnParameterChanged);
 
             XPositionField.ValueChanged += new System.EventHandler(this.GuiForm_SaveSettings);
             YPositionField.ValueChanged += new System.EventHandler(this.GuiForm_SaveSettings);
@@ -44,7 +44,10 @@ namespace Viewer
             using (StreamReader r = new StreamReader("gui.json"))
             {
                 string json = r.ReadToEnd();
-                JObject setings = JObject.Parse(json);
+                JObject settings = JObject.Parse(json);
+                Console.Write(settings);
+                int height = Convert.ToInt32(settings["Camera:0"]["Height"]);
+                //Console.WriteLine("Converted Height: " + height);
                 //JsonTextReader reader = new JsonTextReader(new StringReader(json));
             }
 

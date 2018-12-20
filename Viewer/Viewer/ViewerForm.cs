@@ -5,14 +5,16 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using AxisMediaViewerLib;
+using Newtonsoft.Json.Linq;
+using System.Net;
 
 namespace Viewer
 {
     public partial class ViewerForm : Form
     {
-        Thread renderThread;
-        private static bool showGui = false;
-        private static GuiForm gui;
+        private static Thread renderThread;
+        //Thread responseThread;
+        //private static GuiForm gui;
         //private static int scale = 1;
 
         private static int VideoXPos;
@@ -20,57 +22,42 @@ namespace Viewer
         private static int VideoWidth;
         private static int VideoHeight;
 
+        //private static HttpListener httpListener;
+
+
         public ViewerForm()
         {
             InitializeComponent();
 
-            //FormBorderStyle = FormBorderStyle.None;
-            //WindowState = FormWindowState.Maximized;
+            // set the border style of the form
+            FormBorderStyle = FormBorderStyle.None;
+            WindowState = FormWindowState.Maximized;
+
+            // Create a thread for rendering the video content.
             renderThread = new Thread(new ParameterizedThreadStart(RenderThread));
 
             renderThread.SetApartmentState(ApartmentState.MTA);
 
             renderThread.Start(this.Handle);
 
-            gui = new GuiForm(this);
-            gui.Show();
-
-            this.KeyPress += new KeyPressEventHandler(OnKeyPress);
-        }
-
-        void OnKeyPress(object sender, KeyPressEventArgs e)
-        {
-            if(e.KeyChar == 'g')
+            // Load Settings From Gui
+            using (StreamReader r = new StreamReader("gui.json"))
             {
-                showGui = !showGui;
-                if (showGui)
-                    gui.Show();
-                else
-                    gui.Hide();
-            }
-        }
+                string json = r.ReadToEnd();
+                JObject settings = JObject.Parse(json);
+                Console.Write(settings);
+                VideoXPos = Convert.ToInt32(settings["Camera:0"]["X"]);
+                VideoYPos = Convert.ToInt32(settings["Camera:0"]["Y"]);
+                VideoWidth = Convert.ToInt32(settings["Camera:0"]["Width"]);
+                VideoHeight = Convert.ToInt32(settings["Camera:0"]["Height"]);
 
-        public void OnParameterChanged(object sender, System.EventArgs e)
-        {
-            string name = (sender as NumericUpDown).Name;
-            int v = (int)(sender as NumericUpDown).Value;
-            switch(name)
-            {
-                case "XPosition":
-                    VideoXPos = v;
-                    break;
-                case "YPosition":
-                    VideoYPos = v;
-                    break;
-                case "Width":
-                    VideoWidth = v;
-                    break;
-                case "Height":
-                    VideoHeight = v;
-                    break;
-                default:
-                    break;
+                Console.WriteLine(VideoXPos);
+                Console.WriteLine(VideoYPos);
+                Console.WriteLine(VideoWidth);
+                Console.WriteLine(VideoHeight);
             }
+
+            // Run Gui
         }
 
         void RenderThread(object obj)
@@ -87,16 +74,12 @@ namespace Viewer
                     int mediaTypeSize = inFile.ReadInt32();
                     byte[] mediaTypeBuffer = inFile.ReadBytes(mediaTypeSize);
 
-                    viewer.Init(1, mediaTypeBuffer, hWnd.ToInt64());
-
-                    int width, height;
-                    viewer.GetVideoSize(out width, out height);
-                    ResizeFormToFitVideoSize(width, height);
-
                     long startPosition = inFile.BaseStream.Position;
 
-                    while(true)
+                    while (true)
                     {
+                        viewer.Init(1, mediaTypeBuffer, hWnd.ToInt64());
+
                         viewer.Start();
 
                         while (inFile.PeekChar() != -1)
