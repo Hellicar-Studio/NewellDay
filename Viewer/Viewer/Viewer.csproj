@@ -50,11 +50,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Viewer.cs">
+    <Compile Include="ViewerForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Viewer.Designer.cs">
-      <DependentUpon>Viewer.cs</DependentUpon>
+    <Compile Include="ViewerForm.Designer.cs">
+      <DependentUpon>ViewerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="GuiForm.cs" />
     <Compile Include="GuiForm.Designer.cs">

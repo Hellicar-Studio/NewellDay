@@ -27,7 +27,6 @@ namespace Viewer
         private static ViewerForm mf;
         //JsonTextReader reder = new JsonTextReader(n)
 
-        private static Settings s;
         public GuiForm(ViewerForm mainForm)
         {
             mf = mainForm;
