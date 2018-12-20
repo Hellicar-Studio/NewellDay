@@ -13,12 +13,42 @@ namespace Parser
     {
         static BinaryWriter outFile;
         static object fileLock = new object ();
+        private static string camIP;
+        private static int recordingDuration;
 
         static void Main(string[] args)
         {
+            // Look at our arguments
+            for(int i = 0; i < args.Length; i++)
+            {
+                // Check if we are recieving the name of an argument
+                if(args[i].Substring(0,2) == "--")
+                {
+                    // We got a real argument!
+                    switch (args[i])
+                    {
+                        case "--CamIP":
+                            camIP = args[++i];
+                            break;
+                        case "--Duration":
+                            recordingDuration = Convert.ToInt32(args[++i]);
+                            break;
+                        default:
+                            Console.WriteLine("Unknown Command: " + args[i] + " With argument: " + args[++i]);
+                            break;
+                    }
+                }
+                else
+                {
+                    // We did not get a real argument!
+                    Console.WriteLine("Malformed Command: " + args[i] + ",\n Arguments must be preceded by -- and succeeded by their argument");
+                }
+        
+                //Console.WriteLine(args[i]);
+            }
             // Create the AXIS Media Parser object and set connection properties
             AxisMediaParser parser = new AxisMediaParser();
-            parser.MediaURL = "axmphttp://192.168.1.51/mjpg/1/video.mjpg";
+            parser.MediaURL = "axmphttp://" + camIP + "/mjpg/1/video.mjpg";
             parser.MediaUsername = "root";
             parser.MediaPassword = "pass";
             // Register for OnVideoSample events
@@ -45,7 +75,7 @@ namespace Parser
                     parser.Start();
 
                     // Sleep while OnVideoSample()
-                    System.Threading.Thread.Sleep(5000);
+                    System.Threading.Thread.Sleep(recordingDuration * 1000);
 
                     // Stop the stream, the file C:\Axis\video.bin contains the 5 seconds video
                     parser.Stop();
