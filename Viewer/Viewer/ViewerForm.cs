@@ -14,8 +14,6 @@ namespace Viewer
     {
         private static Thread renderThread;
         //Thread responseThread;
-        //private static GuiForm gui;
-        //private static int scale = 1;
 
         private static int VideoXPos;
         private static int VideoYPos;
