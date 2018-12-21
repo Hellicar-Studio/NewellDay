@@ -40,7 +40,7 @@ namespace Viewer
             renderThread.SetApartmentState(ApartmentState.MTA);
             renderThread.Start(this.Handle);
 
-            defaultGuiPath = "gui.json";
+            defaultGuiPath = "default/gui.json";
         }
 
         public void setWindowParametersFromCommandLineArguments(string[] args)
@@ -189,8 +189,7 @@ namespace Viewer
 
             if(files.Length == 1)
             {
-                videoPath = files[0];
-                return videoPath;
+                return files[0];
             }
             // If we have no or multiple videos we need to exit now.
             Console.WriteLine("There we " + files.Length + " videos in the specified video directory: " + videoDirPath + " Exiting.");
@@ -204,12 +203,11 @@ namespace Viewer
 
             if (files.Length == 1)
             {
-                videoPath = files[0];
-                return videoPath;
+                return files[0];
             }
-            // If we have no or multiple gui files we need to default to the default one.
+            //// If we have no or multiple gui files we need to default to the default one.
             Console.WriteLine("There we " + files.Length + " json files in the specified video directory: " + videoDirPath + " Setting default gui path to: " + defaultGuiPath);
-            return defaultGuiPath;
+            return "default/gui.json";
         }
 
     }
