@@ -13,20 +13,20 @@ namespace Viewer
     {
         private static Thread renderThread;
 
-        private string videoDirPath;
-        private string videoPath;
-        private string guiPath;
-        private static string defaultGuiPath;
+        private string videoDirPath = "";
+        private string videoPath = "";
+        private string guiPath = "";
+        private static string defaultGuiPath = "";
 
-        private int WindowXPos;
-        private int WindowYPos;
-        private int WindowWidth;
-        private int WindowHeight;
+        private int WindowXPos = 0;
+        private int WindowYPos = 0;
+        private int WindowWidth = 0;
+        private int WindowHeight = 0;
 
-        private static int VideoXPos;
-        private static int VideoYPos;
-        private static int VideoWidth;
-        private static int VideoHeight;
+        private static int VideoXPos = 0;
+        private static int VideoYPos = 0;
+        private static int VideoWidth = 0;
+        private static int VideoHeight = 0;
 
         public ViewerForm()
         {
@@ -45,6 +45,10 @@ namespace Viewer
 
         public void setWindowParametersFromCommandLineArguments(string[] args)
         {
+            for (int i = 0; i < args.Length; i++)
+            {
+                Console.WriteLine(args[i]);
+            }
             // Look at our arguments
             for (int i = 0; i < args.Length; i++)
             {
@@ -105,7 +109,6 @@ namespace Viewer
         {
             Location = new System.Drawing.Point(WindowXPos, WindowYPos);
             ClientSize = new System.Drawing.Size(WindowWidth, WindowHeight);
-
         }
 
         private void setDataParameters()

@@ -53,9 +53,6 @@ namespace Parser
             // Register for OnVideoSample events
             parser.OnVideoSample += OnVideoSample;
 
-            Console.WriteLine("Press Enter To Start");
-            Console.ReadLine();
-
             try
             {
                 using (FileStream outFileStream = new FileStream(dataPath, FileMode.Create)) using (outFile = new BinaryWriter(outFileStream))
@@ -79,13 +76,11 @@ namespace Parser
                     // Stop the stream, the file C:\Axis\video.bin contains the 5 seconds video
                     parser.Stop();
                     Console.WriteLine("Stream stopped");
-                    Console.ReadLine();
                 }
             }
             catch (COMException e)
             {
                 Console.WriteLine("Exception from URL: {0}, Error: {1}", parser.MediaURL, e.Message);
-                Console.ReadLine();
             }
         }
 
@@ -94,7 +89,7 @@ namespace Parser
         static void OnVideoSample(int cookieID, int sampleType, int sampleFlags, ulong startTime, ulong stopTime, object SampleArray)
         {
             byte[] bufferBytes = (byte[])SampleArray;
-            Console.WriteLine("OnVideoSample - Received {0} bytes", bufferBytes.Length);
+            //Console.WriteLine("OnVideoSample - Received {0} bytes", bufferBytes.Length);
             lock (fileLock)
             {
                 outFile.Write(sampleType);
