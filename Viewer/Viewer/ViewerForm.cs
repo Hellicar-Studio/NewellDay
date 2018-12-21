@@ -6,26 +6,27 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using AxisMediaViewerLib;
 using Newtonsoft.Json.Linq;
-using System.Net;
 
 namespace Viewer
 {
     public partial class ViewerForm : Form
     {
         private static Thread renderThread;
-        public string videoDir;
-        //Thread responseThread;
-        public int WindowXPos;
-        public int WindowYPos;
-        public int WindowWidth;
-        public int WindowHeight;
+
+        private string videoDirPath;
+        private string videoPath;
+        private string guiPath;
+        private static string defaultGuiPath;
+
+        private int WindowXPos;
+        private int WindowYPos;
+        private int WindowWidth;
+        private int WindowHeight;
 
         private static int VideoXPos;
         private static int VideoYPos;
         private static int VideoWidth;
         private static int VideoHeight;
-
-        //private static HttpListener httpListener;
 
         public ViewerForm()
         {
@@ -34,17 +35,12 @@ namespace Viewer
             // set the border style, position and size  of the form
             FormBorderStyle = FormBorderStyle.None;
 
-            //WindowState = FormWindowState.Maximized;
-
             // Create a thread for rendering the video content.
             renderThread = new Thread(new ParameterizedThreadStart(RenderThread));
-
             renderThread.SetApartmentState(ApartmentState.MTA);
-
             renderThread.Start(this.Handle);
 
-            // Load Settings From Gui
-            LoadSettingsFromGui("gui.json");
+            defaultGuiPath = "gui.json";
         }
 
         public void setWindowParametersFromCommandLineArguments(string[] args)
@@ -58,8 +54,8 @@ namespace Viewer
                     // We got a real argument!
                     switch (args[i])
                     {
-                        case "--VideoFolder":
-                            videoDir = args[++i];
+                        case "--VideoDir":
+                            videoDirPath = args[++i];
                             break;
                         case "--X":
                             if (!int.TryParse(args[++i], out WindowXPos))
@@ -102,15 +98,25 @@ namespace Viewer
             }
 
             setWindowParameters();
+            setDataParameters();
         }
 
         private void setWindowParameters()
         {
             Location = new System.Drawing.Point(WindowXPos, WindowYPos);
             ClientSize = new System.Drawing.Size(WindowWidth, WindowHeight);
+
         }
 
-        void LoadSettingsFromGui(string guiPath)
+        private void setDataParameters()
+        {
+            videoPath = getVideoFilePathFromVideoDirPath(videoDirPath);
+            guiPath = getGuiFilePathFromVideoDirPath(videoDirPath);
+            // Load Settings From Gui
+            loadSettingsFromGui(guiPath);
+        }
+
+        void loadSettingsFromGui(string guiPath)
         {
             using (StreamReader r = new StreamReader(guiPath))
             {
@@ -133,7 +139,7 @@ namespace Viewer
 
             try
             {
-                using (FileStream inFileStream = new FileStream("C:\\Axis\\video.bin", FileMode.Open)) using (BinaryReader inFile = new BinaryReader(inFileStream, Encoding.UTF32))
+                using (FileStream inFileStream = new FileStream(videoPath, FileMode.Open)) using (BinaryReader inFile = new BinaryReader(inFileStream, Encoding.UTF32))
                 {
                     int mediaTypeSize = inFile.ReadInt32();
                     byte[] mediaTypeBuffer = inFile.ReadBytes(mediaTypeSize);
@@ -177,16 +183,34 @@ namespace Viewer
             }
         }
 
-        //private delegate void ResizeFormToFitVideoSizeDelegate(int width, int height);
+        string getVideoFilePathFromVideoDirPath(string videoDirPath)
+        {
+            string[] files = Directory.GetFiles(videoDirPath, "*.bin");
 
-        //private void ResizeFormToFitVideoSize(int width, int height)
-        //{
-        //    if(InvokeRequired)
-        //    {
-        //        Invoke(new ResizeFormToFitVideoSizeDelegate(ResizeFormToFitVideoSize), new object[] { width, height });
-        //        return;
-        //    }
-        //    ClientSize = new System.Drawing.Size(width, height);
-        //}
+            if(files.Length == 1)
+            {
+                videoPath = files[0];
+                return videoPath;
+            }
+            // If we have no or multiple videos we need to exit now.
+            Console.WriteLine("There we " + files.Length + " videos in the specified video directory: " + videoDirPath + " Exiting.");
+            Environment.Exit(0);
+            return "";
+        }
+
+        string getGuiFilePathFromVideoDirPath(string videoDirPath)
+        {
+            string[] files = Directory.GetFiles(videoDirPath, "*.json");
+
+            if (files.Length == 1)
+            {
+                videoPath = files[0];
+                return videoPath;
+            }
+            // If we have no or multiple gui files we need to default to the default one.
+            Console.WriteLine("There we " + files.Length + " json files in the specified video directory: " + videoDirPath + " Setting default gui path to: " + defaultGuiPath);
+            return defaultGuiPath;
+        }
+
     }
 }
