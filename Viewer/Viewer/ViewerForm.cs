@@ -13,7 +13,12 @@ namespace Viewer
     public partial class ViewerForm : Form
     {
         private static Thread renderThread;
+        public string videoDir;
         //Thread responseThread;
+        public int WindowXPos;
+        public int WindowYPos;
+        public int WindowWidth;
+        public int WindowHeight;
 
         private static int VideoXPos;
         private static int VideoYPos;
@@ -22,14 +27,14 @@ namespace Viewer
 
         //private static HttpListener httpListener;
 
-
         public ViewerForm()
         {
             InitializeComponent();
 
-            // set the border style of the form
+            // set the border style, position and size  of the form
             FormBorderStyle = FormBorderStyle.None;
-            WindowState = FormWindowState.Maximized;
+
+            //WindowState = FormWindowState.Maximized;
 
             // Create a thread for rendering the video content.
             renderThread = new Thread(new ParameterizedThreadStart(RenderThread));
@@ -39,7 +44,75 @@ namespace Viewer
             renderThread.Start(this.Handle);
 
             // Load Settings From Gui
-            using (StreamReader r = new StreamReader("gui.json"))
+            LoadSettingsFromGui("gui.json");
+        }
+
+        public void setWindowParametersFromCommandLineArguments(string[] args)
+        {
+            // Look at our arguments
+            for (int i = 0; i < args.Length; i++)
+            {
+                // Check if we are recieving the name of an argument
+                if (args[i].Substring(0, 2) == "--")
+                {
+                    // We got a real argument!
+                    switch (args[i])
+                    {
+                        case "--VideoFolder":
+                            videoDir = args[++i];
+                            break;
+                        case "--X":
+                            if (!int.TryParse(args[++i], out WindowXPos))
+                            {
+                                Console.WriteLine("Failed to parse: " + args[i] + " to integer, default set");
+                                WindowXPos = 0;
+                            }
+                            break;
+                        case "--Y":
+                            if(!int.TryParse(args[++i], out WindowYPos))
+                            {
+                                Console.WriteLine("Failed to parse: " + args[i] + " to integer, default set");
+                                WindowYPos = 0;
+                            }
+                            break;
+                        case "--Width":
+                            if (!int.TryParse(args[++i], out WindowWidth))
+                            {
+                                Console.WriteLine("Failed to parse: " + args[i] + " to integer, default set");
+                                WindowWidth = 1920;
+                            }
+                            break;
+                        case "--Height":
+                            if (!int.TryParse(args[++i], out WindowHeight))
+                            {
+                                Console.WriteLine("Failed to parse: " + args[i] + " to integer, default set");
+                                WindowHeight = 0;
+                            }
+                            break;
+                        default:
+                            Console.WriteLine("Unknown Command: " + args[i] + " With argument: " + args[++i]);
+                            break;
+                    }
+                }
+                else
+                {
+                    // We did not get a real argument!
+                    Console.WriteLine("Malformed Command: " + args[i] + ",\n Arguments must be preceded by -- and succeeded by their argument");
+                }
+            }
+
+            setWindowParameters();
+        }
+
+        private void setWindowParameters()
+        {
+            Location = new System.Drawing.Point(WindowXPos, WindowYPos);
+            ClientSize = new System.Drawing.Size(WindowWidth, WindowHeight);
+        }
+
+        void LoadSettingsFromGui(string guiPath)
+        {
+            using (StreamReader r = new StreamReader(guiPath))
             {
                 string json = r.ReadToEnd();
                 JObject settings = JObject.Parse(json);
@@ -48,14 +121,7 @@ namespace Viewer
                 VideoYPos = Convert.ToInt32(settings["Camera:0"]["Y"]);
                 VideoWidth = Convert.ToInt32(settings["Camera:0"]["Width"]);
                 VideoHeight = Convert.ToInt32(settings["Camera:0"]["Height"]);
-
-                Console.WriteLine(VideoXPos);
-                Console.WriteLine(VideoYPos);
-                Console.WriteLine(VideoWidth);
-                Console.WriteLine(VideoHeight);
             }
-
-            // Run Gui
         }
 
         void RenderThread(object obj)
@@ -111,16 +177,16 @@ namespace Viewer
             }
         }
 
-        private delegate void ResizeFormToFitVideoSizeDelegate(int width, int height);
+        //private delegate void ResizeFormToFitVideoSizeDelegate(int width, int height);
 
-        private void ResizeFormToFitVideoSize(int width, int height)
-        {
-            if(InvokeRequired)
-            {
-                Invoke(new ResizeFormToFitVideoSizeDelegate(ResizeFormToFitVideoSize), new object[] { width, height });
-                return;
-            }
-            ClientSize = new System.Drawing.Size(width, height);
-        }
+        //private void ResizeFormToFitVideoSize(int width, int height)
+        //{
+        //    if(InvokeRequired)
+        //    {
+        //        Invoke(new ResizeFormToFitVideoSizeDelegate(ResizeFormToFitVideoSize), new object[] { width, height });
+        //        return;
+        //    }
+        //    ClientSize = new System.Drawing.Size(width, height);
+        //}
     }
 }
