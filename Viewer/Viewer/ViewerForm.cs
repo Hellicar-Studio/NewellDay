@@ -86,7 +86,7 @@ namespace Viewer
                             if (!int.TryParse(args[++i], out WindowHeight))
                             {
                                 Console.WriteLine("Failed to parse: " + args[i] + " to integer, default set");
-                                WindowHeight = 0;
+                                WindowHeight = 1080;
                             }
                             break;
                         default:
