@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <StartArguments>--VideoDir "data" --X 0 --Y 0 --Width 960 --Height 540</StartArguments>
+    <StartArguments>--VideoDir C:\Users\Flowers\Documents\of_v0.9.8_vs_release\apps\NewellDay\Parser\Parser\bin\Debug\data\recordings\ --X 0 --Y 0 --Width 960 --Height 540</StartArguments>
   </PropertyGroup>
 </Project>

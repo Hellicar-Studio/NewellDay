@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using System.Runtime.InteropServices;
 using AxisMediaParserLib;
@@ -15,6 +11,7 @@ namespace Parser
         static object fileLock = new object ();
         private static string camIP;
         private static int recordingDuration;
+        private static string dataPath;
 
         static void Main(string[] args)
         {
@@ -27,10 +24,13 @@ namespace Parser
                     // We got a real argument!
                     switch (args[i])
                     {
-                        case "--CamIP":
+                        case "--data-path":
+                            dataPath = args[++i];
+                            break;
+                        case "--cam-ip":
                             camIP = args[++i];
                             break;
-                        case "--Duration":
+                        case "--duration":
                             recordingDuration = Convert.ToInt32(args[++i]);
                             break;
                         default:
@@ -43,9 +43,8 @@ namespace Parser
                     // We did not get a real argument!
                     Console.WriteLine("Malformed Command: " + args[i] + ",\n Arguments must be preceded by -- and succeeded by their argument");
                 }
-        
-                //Console.WriteLine(args[i]);
             }
+
             // Create the AXIS Media Parser object and set connection properties
             AxisMediaParser parser = new AxisMediaParser();
             parser.MediaURL = "axmphttp://" + camIP + "/mjpg/1/video.mjpg";
@@ -59,7 +58,7 @@ namespace Parser
 
             try
             {
-                using (FileStream outFileStream = new FileStream("C:\\Axis\\video.bin", FileMode.Create)) using (outFile = new BinaryWriter(outFileStream))
+                using (FileStream outFileStream = new FileStream(dataPath, FileMode.Create)) using (outFile = new BinaryWriter(outFileStream))
                 {
                     Console.WriteLine("Connecting to {0}", parser.MediaURL);
                     int cookieID;
