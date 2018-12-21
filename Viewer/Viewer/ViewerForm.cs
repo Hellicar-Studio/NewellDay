@@ -58,31 +58,31 @@ namespace Viewer
                     // We got a real argument!
                     switch (args[i])
                     {
-                        case "--VideoDir":
+                        case "--data-path":
                             videoDirPath = args[++i];
                             break;
-                        case "--X":
+                        case "--window-x":
                             if (!int.TryParse(args[++i], out WindowXPos))
                             {
                                 Console.WriteLine("Failed to parse: " + args[i] + " to integer, default set");
                                 WindowXPos = 0;
                             }
                             break;
-                        case "--Y":
+                        case "--window-y":
                             if(!int.TryParse(args[++i], out WindowYPos))
                             {
                                 Console.WriteLine("Failed to parse: " + args[i] + " to integer, default set");
                                 WindowYPos = 0;
                             }
                             break;
-                        case "--Width":
+                        case "--window-width":
                             if (!int.TryParse(args[++i], out WindowWidth))
                             {
                                 Console.WriteLine("Failed to parse: " + args[i] + " to integer, default set");
                                 WindowWidth = 1920;
                             }
                             break;
-                        case "--Height":
+                        case "--window-height":
                             if (!int.TryParse(args[++i], out WindowHeight))
                             {
                                 Console.WriteLine("Failed to parse: " + args[i] + " to integer, default set");

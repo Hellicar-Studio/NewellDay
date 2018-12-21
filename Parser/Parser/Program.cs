@@ -27,10 +27,10 @@ namespace Parser
                         case "--data-path":
                             dataPath = args[++i];
                             break;
-                        case "--cam-ip":
+                        case "--camera-ip":
                             camIP = args[++i];
                             break;
-                        case "--duration":
+                        case "--record-for-seconds":
                             recordingDuration = Convert.ToInt32(args[++i]);
                             break;
                         default:
