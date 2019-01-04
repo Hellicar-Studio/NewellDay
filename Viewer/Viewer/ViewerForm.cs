@@ -144,40 +144,46 @@ namespace Viewer
             {
                 using (FileStream inFileStream = new FileStream(videoPath, FileMode.Open)) using (BinaryReader inFile = new BinaryReader(inFileStream, Encoding.UTF32))
                 {
-                    int mediaTypeSize = inFile.ReadInt32();
-                    byte[] mediaTypeBuffer = inFile.ReadBytes(mediaTypeSize);
-
-                    long startPosition = inFile.BaseStream.Position;
-
-                    while (true)
+                    if(inFile.PeekChar() != -1)
                     {
-                        viewer.Init(1, mediaTypeBuffer, hWnd.ToInt64());
+                        int mediaTypeSize = inFile.ReadInt32();
+                        byte[] mediaTypeBuffer = inFile.ReadBytes(mediaTypeSize);
 
-                        viewer.Start();
+                        long startPosition = inFile.BaseStream.Position;
 
-                        while (inFile.PeekChar() != -1)
+                        while (true)
                         {
-                            // Read frame data
-                            int sampleType = inFile.ReadInt32();
-                            int sampleFlags = inFile.ReadInt32();
-                            ulong startTime = inFile.ReadUInt64();
-                            ulong stopTime = inFile.ReadUInt64();
-                            int bufferSize = inFile.ReadInt32();
-                            byte[] bufferBytes = inFile.ReadBytes(bufferSize);
-                            // Check that it’s not an audio sample.
-                            if (sampleType != (int)AMV_VIDEO_SAMPLE_TYPE.AMV_VST_MPEG4_AUDIO)
+                            viewer.Init(1, mediaTypeBuffer, hWnd.ToInt64());
+
+                            viewer.Start();
+
+                            while (inFile.PeekChar() != -1)
                             {
-                                // Let the viewer render the frame
-                                viewer.SetVideoPosition(VideoXPos, VideoYPos, VideoXPos + VideoWidth, VideoYPos + VideoHeight);
-                                viewer.RenderVideoSample(sampleFlags, startTime, stopTime, bufferBytes);
+                                // Read frame data
+                                int sampleType = inFile.ReadInt32();
+                                int sampleFlags = inFile.ReadInt32();
+                                ulong startTime = inFile.ReadUInt64();
+                                ulong stopTime = inFile.ReadUInt64();
+                                int bufferSize = inFile.ReadInt32();
+                                byte[] bufferBytes = inFile.ReadBytes(bufferSize);
+                                // Check that it’s not an audio sample.
+                                if (sampleType != (int)AMV_VIDEO_SAMPLE_TYPE.AMV_VST_MPEG4_AUDIO)
+                                {
+                                    // Let the viewer render the frame
+                                    viewer.SetVideoPosition(VideoXPos, VideoYPos, VideoXPos + VideoWidth, VideoYPos + VideoHeight);
+                                    viewer.RenderVideoSample(sampleFlags, startTime, stopTime, bufferBytes);
+                                }
                             }
+
+                            inFile.BaseStream.Position = startPosition;
+
+                            viewer.Stop();
                         }
-
-                        inFile.BaseStream.Position = startPosition;
-
-                        viewer.Stop();
+                    } else
+                    {
+                        Console.WriteLine(string.Format("File at {0} is empty or malformed", videoPath));
+                        Environment.Exit(0);
                     }
-
                 }
             }
             catch (COMException e)
@@ -194,8 +200,8 @@ namespace Viewer
             {
                 return files[0];
             }
-            // If we have no or multiple videos we need to exit now.
-            Console.WriteLine("There we " + files.Length + " videos in the specified video directory: " + videoDirPath + " Exiting.");
+            // If we have no or multiple videos so we need to exit now.
+            Console.WriteLine("There were " + files.Length + " videos in the specified video directory: " + videoDirPath + " Exiting.");
             Environment.Exit(0);
             return "";
         }
